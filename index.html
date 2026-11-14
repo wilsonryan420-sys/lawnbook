@@ -15,6 +15,11 @@
   --accent-fg:#ffffff;
   --accent-soft:#dcebd3;
   --route-soft:#e7f0df;
+  --viz-1:#2a78d6;
+  --viz-good:#0ca30c;
+  --viz-warn:#fab219;
+  --viz-neutral:#d5d9ca;
+  --viz-ink-on-warn:#0b0b0b;
   --warn:#8f6100;
   --warn-soft:#f5e8c9;
   --bad:#a3372a;
@@ -25,14 +30,14 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#11150e;--surface:#191e15;--head:#222a1d;--line:#2d3626;--fg:#e5e9de;--muted:#98a28c;
-    --accent:#86c981;--accent-fg:#0e1a0c;--accent-soft:#243620;--route-soft:#1c2a19;
+    --accent:#86c981;--accent-fg:#0e1a0c;--accent-soft:#243620;--route-soft:#1c2a19;--viz-1:#3987e5;--viz-good:#0ca30c;--viz-warn:#fab219;--viz-neutral:#3a4333;--viz-ink-on-warn:#0b0b0b;
     --warn:#e3b556;--warn-soft:#352b10;--bad:#f0907f;--bad-soft:#3b201b;
     color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#11150e;--surface:#191e15;--head:#222a1d;--line:#2d3626;--fg:#e5e9de;--muted:#98a28c;
-  --accent:#86c981;--accent-fg:#0e1a0c;--accent-soft:#243620;--route-soft:#1c2a19;
+  --accent:#86c981;--accent-fg:#0e1a0c;--accent-soft:#243620;--route-soft:#1c2a19;--viz-1:#3987e5;--viz-good:#0ca30c;--viz-warn:#fab219;--viz-neutral:#3a4333;--viz-ink-on-warn:#0b0b0b;
   --warn:#e3b556;--warn-soft:#352b10;--bad:#f0907f;--bad-soft:#3b201b;
   color-scheme:dark;
 }
@@ -46,6 +51,7 @@ h1{margin:2px 0 0;font-size:26px;line-height:1.1;font-weight:600;letter-spacing:
 .switch{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
 .switch a{padding:9px 18px;color:var(--fg);text-decoration:none;font-weight:500}
 .switch a+a{border-left:1px solid var(--line)}
+.switch a[hidden]+a{border-left:0}
 .switch a[aria-current="page"]{background:var(--accent);color:var(--accent-fg)}
 .help{margin:14px 0 0;max-width:65ch;color:var(--muted)}
 .banner{margin:14px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 12px;background:var(--warn-soft);color:var(--warn);border-radius:6px;font-weight:500}
@@ -97,6 +103,27 @@ select:focus-visible,.btn:focus-visible,.switch a:focus-visible{outline:2px soli
 .empty{padding:36px 16px;border:1px dashed var(--line);border-radius:6px;text-align:center;color:var(--muted)}
 .empty b{display:block;color:var(--fg);font-size:16px;margin-bottom:4px}
 .stat.warn b{color:var(--warn)}
+.syncbar{margin:10px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:12px;color:var(--muted)}
+.syncbar .dot{width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.syncbar[data-s="shared"] .dot{background:var(--viz-good,#0ca30c)}
+.syncbar[data-s="error"] .dot{background:var(--bad)}
+.syncbar span{min-width:0}
+.owedrow{display:flex;align-items:center;gap:6px;padding:0 6px 6px}
+.btn.info{width:24px;height:24px;min-height:0;padding:0;border-radius:50%;font-family:var(--font-num);font-weight:600;line-height:1}
+.owedtag{font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:600;color:var(--muted)}
+.owedtag[data-e="1"]{color:var(--warn)}
+.owedinfo{margin:0 6px 8px;padding:9px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);display:flex;flex-direction:column;gap:7px;font-size:12.5px;white-space:normal;min-width:210px}
+.owedinfo p{margin:0}
+.owedinfo .q{padding-left:8px;border-left:3px solid var(--accent);font-style:italic}
+.owedinfo .hint{color:var(--warn)}
+.owedinfo label{display:flex;flex-direction:column;gap:3px;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.owedinfo textarea{font:inherit;font-size:12.5px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--fg)}
+.copycard{padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);display:flex;flex-direction:column;gap:8px;margin:0 0 10px}
+.copycard header{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.copycard header span{color:var(--muted);font-size:12.5px}
+.copycard .q{margin:0;padding-left:8px;border-left:3px solid var(--accent);font-style:italic}
+.copystats{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--muted)}
+.copystats b{color:var(--fg);font-family:var(--font-num);font-weight:500}
 .notice{margin:14px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:10px 12px;background:var(--accent-soft);color:var(--accent);border-radius:6px;font-weight:500}
 .flag{display:flex;align-items:flex-start;gap:8px;padding:0 8px 8px;font-size:12px;color:var(--warn)}
 .flag span{flex:1;min-width:0}
@@ -151,6 +178,65 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
 .logtbl td.money{font-family:var(--font-num);font-variant-numeric:tabular-nums;text-align:right}
 .logtbl tbody tr:nth-child(even) td{background:var(--bg)}
 .logtbl .chip{padding:2px 8px;font-size:12px}
+.topright{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.who{margin:0;display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.who .btn{margin-top:0}
+.gate{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;align-items:center;justify-content:center;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.gate-card{width:100%;max-width:540px;display:flex;flex-direction:column;gap:14px}
+.gate h2{margin:0;font-size:26px;line-height:1.15;font-weight:600;text-wrap:balance}
+.gate p{margin:0}
+.gate-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.gate-opt{font:inherit;text-align:left;cursor:pointer;padding:16px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--fg);display:flex;flex-direction:column;gap:6px}
+.gate-opt b{font-size:18px;font-weight:600}
+.gate-opt span{font-size:13px;color:var(--muted)}
+.gate-opt:hover,.gate-opt[data-last="1"]{border-color:var(--accent)}
+.gate-opt:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.inline-check{display:inline-flex;align-items:center;gap:8px;font-size:13px}
+.inline-check input{width:18px;height:18px;margin:0}
+td.where{padding:10px 10px;font-size:12.5px;color:var(--muted);min-width:200px}
+.vizgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:14px;margin:0 0 14px;align-items:start}
+.viz{padding:14px;border:1px solid var(--line);border-radius:6px;background:var(--surface);display:flex;flex-direction:column;gap:10px;min-width:0}
+.viz h2{margin:0;font-size:15px;font-weight:600}
+.viz .sub{margin:0;font-size:12.5px;color:var(--muted)}
+.hbars{display:flex;flex-direction:column;gap:4px}
+.hb{display:grid;grid-template-columns:minmax(80px,36%) 1fr;align-items:center;gap:10px;min-height:28px;border-radius:4px;padding:1px 4px;margin:0 -4px}
+.hb:hover,.hb:focus-visible{background:var(--head)}
+.hb:focus-visible{outline:2px solid var(--accent)}
+.hb-name{font-size:13px;color:var(--fg);min-width:0;overflow-wrap:anywhere}
+.hb-track{display:flex;align-items:center;gap:8px;min-width:0}
+.hb-bar{display:block;height:18px;background:var(--viz-1);border-radius:0 4px 4px 0;min-width:2px}
+.hb-val{font-family:var(--font-num);font-size:12.5px;color:var(--fg);white-space:nowrap}
+.seg{display:flex;gap:2px;height:28px}
+.seg i{display:block;font-style:normal;font-size:12.5px;font-weight:600;line-height:28px;text-indent:8px;border-radius:4px;min-width:0;white-space:nowrap;overflow:visible}
+.seg i:focus-visible{outline:2px solid var(--fg);outline-offset:1px}
+.seg i.c-good{color:#fff}
+.seg i.c-warn{color:var(--viz-ink-on-warn)}
+.seg i.c-none{color:var(--fg)}
+.c-good{background:var(--viz-good)}
+.c-warn{background:var(--viz-warn)}
+.c-none{background:var(--viz-neutral)}
+.seg-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--fg)}
+.seg-legend span{display:inline-flex;align-items:center;gap:6px}
+.seg-legend em{display:inline-block;width:10px;height:10px;border-radius:2px}
+.colchart{display:block;width:100%;height:auto;max-width:100%}
+.colchart .bar{fill:var(--viz-1);pointer-events:none}
+.colchart .grid{stroke:var(--line);stroke-width:1}
+.colchart .ax-base{stroke:var(--muted);stroke-opacity:.45;stroke-width:1}
+.colchart .ax{fill:var(--muted);font-size:11px;font-family:var(--font-num);pointer-events:none}
+.colchart .vl{fill:var(--fg);font-size:11.5px;font-weight:600;font-family:var(--font-num);pointer-events:none}
+.colchart .hit{fill:transparent;outline:none}
+.colchart .hit:hover,.colchart .hit:focus-visible{fill:var(--head);fill-opacity:.7}
+details.tv{font-size:12.5px}
+details.tv summary{cursor:pointer;color:var(--muted)}
+details.tv summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tvwrap{overflow-x:auto;margin-top:8px}
+.tv th,.tv td{padding:6px 10px;font-size:12.5px;border-right:0}
+.tv td{font-variant-numeric:tabular-nums}
+.tip{position:fixed;z-index:60;pointer-events:none;padding:6px 9px;border-radius:4px;background:var(--fg);color:var(--bg);font-size:12.5px;line-height:1.35;max-width:260px}
+@media (max-width:640px){
+  .topright{align-items:flex-start}
+  .gate-opts{grid-template-columns:1fr}
+}
 @media (max-width:640px){
   .rn,.sticky{position:static}
   .switch a{padding:9px 12px}
@@ -159,20 +245,25 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-<div class="wrap">
+<div class="wrap" id="app" inert>
   <header class="top">
     <div>
       <p class="eyebrow">Lawncare</p>
       <h1>Routebook</h1>
     </div>
-    <nav class="switch" aria-label="Choose a view">
-      <a href="#driver" id="nav-driver">Driver</a>
-      <a href="#accountant" id="nav-accountant">Accountant</a>
-      <a href="#import" id="nav-import">Import</a>
-      <a href="#log" id="nav-log">Log</a>
-    </nav>
+    <div class="topright">
+      <nav class="switch" aria-label="Choose a view">
+        <a href="#driver" id="nav-driver">Route</a>
+        <a href="#accountant" id="nav-accountant">Accounts</a>
+        <a href="#import" id="nav-import">Import</a>
+        <a href="#log" id="nav-log">Log</a>
+        <a href="#copies" id="nav-copies">Copies</a>
+      </nav>
+      <p class="who" id="whowrap" hidden><span id="who"></span><button class="btn small" type="button" data-act="role-switch" id="role-switch">Switch role</button><button class="btn small" type="button" data-act="send-open" id="send-open">Send copy to owner</button></p>
+    </div>
   </header>
   <p class="help" id="help"></p>
+  <div class="syncbar" id="syncbar" data-s="local" hidden><i class="dot"></i><span id="sync-text"></span><button class="btn small" type="button" data-act="sync-start" id="sync-start" hidden>Share this list across devices</button></div>
   <div class="banner" id="banner" hidden>
     <span>These are example customers so you can see how it works. Clear them to start your own list.</span>
     <button class="btn" type="button" data-act="clear" id="clear-examples">Clear examples</button>
@@ -182,11 +273,30 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     <button class="btn small" type="button" data-act="close-notice">Dismiss</button>
   </div>
   <div class="summary" id="summary"></div>
+  <section class="vizgrid" id="chartpanel" aria-label="Charts" hidden></section>
   <section class="routepanel" id="weekpanel" aria-label="Save week" hidden></section>
+  <section class="routepanel" id="sendpanel" aria-label="Send a copy to the owner" hidden></section>
   <section class="routepanel" id="routepanel" aria-label="Route builder" hidden></section>
   <div id="stage"></div>
   <div class="actions" id="actions"><button class="btn primary" type="button" data-act="add" id="add-customer">+ Add customer</button></div>
 </div>
+
+<div class="gate" id="rolegate" role="dialog" aria-modal="true" aria-labelledby="rg-title">
+  <div class="gate-card">
+    <p class="eyebrow">Lawncare Routebook</p>
+    <h2 id="rg-title">Who is using Routebook?</h2>
+    <p class="help" style="margin:0">Pick your role. You will only see the tools you need, and you can switch at any time.</p>
+    <p class="routenote" id="rg-wait">Checking who you are…</p>
+    <div class="gate-opts" id="rg-opts" hidden>
+      <button class="gate-opt" type="button" id="role-driver" data-act="role" data-role="driver"><b>Driver</b><span>Today's route, directions, yard status and payments.</span></button>
+      <button class="gate-opt" type="button" id="role-accountant" data-act="role" data-role="accountant"><b>Accountant</b><span>Billing addresses, balances, charts and the weekly log.</span></button>
+      <button class="gate-opt" type="button" id="role-owner" data-act="role" data-role="owner"><b>Owner</b><span>Everything, plus copies sent to you and full backups.</span></button>
+    </div>
+    <p class="routenote" id="rg-last"></p>
+    <p class="routenote" id="rg-note"></p>
+  </div>
+</div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
 
 <script>
 (function(){
@@ -197,7 +307,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
 
   function uid(){ return 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
   function blank(){
-    return {id:uid(),name:'',serviceAddr:'',billingAddr:'',job:JOBS[0],status:'Pending',pay:'Unpaid',driverNotes:'',owed:null,paid:null,paidDate:'',acctNotes:'',flag:'',rate:null,freq:'',phone:'',email:'',time:'',doneDate:''};
+    return {id:uid(),name:'',serviceAddr:'',billingAddr:'',job:JOBS[0],status:'Pending',pay:'Unpaid',driverNotes:'',owed:null,paid:null,paidDate:'',acctNotes:'',flag:'',rate:null,freq:'',phone:'',email:'',time:'',doneDate:'',owedNote:'',owedAuto:null,owedAdj:''};
   }
   function ex(o){
     var r = blank(); for (var k in o) r[k] = o[k];
@@ -226,7 +336,294 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   }
   var state = load() || {examples:true, rows:examples()};
   if (!Array.isArray(state.log)) state.log = [];
-  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+  state.rows.forEach(function(r){ if (r.driverNotes) r.driverNotes = String(r.driverNotes).replace(/^Ref \.?\d+(\.\d+)?\.?\s*/, ''); });
+  var role = '';
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} if (sync.mode === 'shared') scheduleSync(); }
+
+  /* ---------- shared list across devices (db capability) ---------- */
+  var DRIVER_F = ['name','serviceAddr','job','status','pay','driverNotes','phone','time','doneDate','flag'];
+  var LEDGER_F = ['billingAddr','email','rate','freq','owed','paid','paidDate','acctNotes','owedNote','owedAuto','owedAdj'];
+  var LOG_MONEY = ['rate','freq','owed','paid','paidDate'];
+  var sync = {mode:'local', db:null, canWrite:true, ledger:false, level:'', uid:null, known:{}, raw:{}, copies:null, people:null, peers:[], names:{}, user:null, room:null, announced:false,
+              remote:{customers:null, logs:null, ledger:null, meta:undefined}, fresh:{},
+              dirty:false, writing:false, timer:0, retry:0, applyLater:false, err:'', slow:false};
+  function canon(v){
+    if (Array.isArray(v)) return '[' + v.map(canon).join(',') + ']';
+    if (v && typeof v === 'object'){
+      return '{' + Object.keys(v).sort().filter(function(k){ return v[k] !== undefined; }).map(function(k){ return JSON.stringify(k) + ':' + canon(v[k]); }).join(',') + '}';
+    }
+    return JSON.stringify(v === undefined ? null : v);
+  }
+  function clone(v){ return JSON.parse(JSON.stringify(v)); }
+  function pick(o, keys){ var x = {}; keys.forEach(function(k){ if (o[k] !== undefined) x[k] = o[k]; }); return x; }
+  function omit(o, keys){ var x = {}; Object.keys(o).forEach(function(k){ if (keys.indexOf(k) < 0) x[k] = o[k]; }); return x; }
+  /* Driver-safe data lives in customers/ and logs/. Money lives in ledger/, which only Editors and the owner can read or write. */
+  function docsFromState(){
+    var d = {}, by = {}, order = [];
+    state.rows.forEach(function(r, i){
+      var c = pick(r, DRIVER_F); c.order = i; d['customers/' + r.id] = clone(c);
+      if (sync.ledger) d['ledger/c' + r.id] = clone(pick(r, LEDGER_F));
+    });
+    state.log.forEach(function(x){ var b = x.batch || 'b0'; if (!by[b]){ by[b] = []; order.push(b); } by[b].push(x); });
+    order.forEach(function(b){
+      d['logs/' + b] = clone({batch:b, weekEnding:by[b][0].weekEnding || '', entries:by[b].map(function(x){ return omit(x, LOG_MONEY); })});
+      if (sync.ledger){
+        var m = by[b].filter(function(x){ return LOG_MONEY.some(function(k){ return x[k] !== undefined; }); })
+          .map(function(x){ var o = pick(x, LOG_MONEY); o.id = x.id; return o; });
+        if (m.length) d['ledger/l' + b] = clone({batch:b, entries:m});
+      }
+    });
+    d['meta/state'] = clone({examples:!!state.examples, lastSave:state.lastSave || null, routes:state.routes || [], route:state.route || null});
+    return d;
+  }
+  function proj(path, data){
+    if (sync.ledger) return data;
+    if (path.indexOf('customers/') === 0) return pick(data, DRIVER_F.concat(['order']));
+    if (path.indexOf('logs/') === 0){ var o = clone(data); o.entries = (o.entries || []).map(function(e){ return omit(e, LOG_MONEY); }); return o; }
+    return data;
+  }
+  function remoteHasData(){
+    var r = sync.remote;
+    return !!r.meta || (r.customers && Object.keys(r.customers).length > 0) || (r.logs && Object.keys(r.logs).length > 0);
+  }
+  function scheduleSync(){
+    sync.dirty = true;
+    clearTimeout(sync.timer);
+    sync.timer = setTimeout(flush, 700);
+    renderSync();
+  }
+  function diffOps(){
+    var want = docsFromState(), ops = [];
+    Object.keys(want).forEach(function(k){ var j = canon(want[k]); if (sync.known[k] !== j) ops.push({k:k, data:want[k], j:j}); });
+    Object.keys(sync.known).forEach(function(k){
+      if (!(k in want) && k !== 'meta/state' && (sync.ledger || k.indexOf('ledger/') !== 0)) ops.push({k:k, del:true});
+    });
+    return ops;
+  }
+  function flush(){
+    if (sync.mode !== 'shared' || !sync.canWrite || sync.writing || !sync.db) return;
+    sync.writing = true; sync.dirty = false;
+    var ops = diffOps(), i = 0;
+    function fail(e){
+      sync.writing = false;
+      var code = e && e.code;
+      if (code === 'invalid_argument' || code === 'revoked'){ sync.canWrite = false; sync.err = ''; }
+      else { sync.err = code === 'quota_exceeded' ? 'The shared database is full.' : 'Could not sync. Your changes are kept on this device.';
+             if (code !== 'quota_exceeded'){ clearTimeout(sync.timer); sync.timer = setTimeout(function(){ sync.dirty = true; flush(); }, 8000); } }
+      renderSync(); render();
+    }
+    (function next(){
+      if (i >= ops.length){
+        sync.writing = false; sync.err = '';
+        if (sync.dirty){ flush(); return; }
+        renderSync();
+        if (sync.applyLater) tryApply();
+        return;
+      }
+      var op = ops[i++], ref = sync.db.doc(op.k), p;
+      if (op.del) p = ref.delete();
+      else if (!sync.ledger && sync.raw[op.k]) p = ref.update(op.data);   /* never wipe fields this person cannot see */
+      else p = ref.set(op.data);
+      p.then(function(){ if (op.del){ delete sync.known[op.k]; delete sync.raw[op.k]; } else sync.known[op.k] = op.j; next(); }, fail);
+    })();
+  }
+  function editing(){
+    var a = document.activeElement;
+    return !!a && /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName) && !$('rolegate').contains(a);
+  }
+  function tryApply(){
+    if (sync.mode !== 'shared') return;
+    if (sync.dirty || sync.writing || editing()){ sync.applyLater = true; return; }
+    sync.applyLater = false;
+    if (diffOps().length === 0) return;
+    applyRemote();
+  }
+  function applyRemote(){
+    var r = sync.remote, rows = [], log = [], led = r.ledger || {};
+    Object.keys(r.customers || {}).forEach(function(k){
+      var o = clone(r.customers[k]), row = blank(); for (var f in o) row[f] = o[f]; row.id = k;
+      var lg = led['c' + k]; if (sync.ledger && lg){ for (var g in lg) row[g] = lg[g]; }
+      if (!sync.ledger) LEDGER_F.forEach(function(g){ row[g] = blank()[g]; });
+      rows.push(row);
+    });
+    rows.sort(function(a, b){ return (a.order || 0) - (b.order || 0); });
+    rows.forEach(function(x){ delete x.order; });
+    var batches = Object.keys(r.logs || {}).map(function(k){ return r.logs[k]; });
+    batches.sort(function(a, b){ return String(a.weekEnding || '').localeCompare(String(b.weekEnding || '')) || String(a.batch).localeCompare(String(b.batch)); });
+    batches.forEach(function(b){
+      var ov = {}; if (sync.ledger && led['l' + b.batch]) (led['l' + b.batch].entries || []).forEach(function(e){ ov[e.id] = e; });
+      (b.entries || []).forEach(function(x){
+        var e = clone(x); if (ov[e.id]) for (var f in ov[e.id]) e[f] = ov[e.id][f];
+        if (!sync.ledger) e = omit(e, LOG_MONEY);
+        log.push(e);
+      });
+    });
+    if (sync.ledger){
+      /* A driver's weekly save carries no money. Fill it in from the current ledger. */
+      var byId = {}, byName = {}; rows.forEach(function(x){ byId[x.id] = x; byName[(x.name || '').toLowerCase() + '|' + (x.serviceAddr || '').toLowerCase()] = x; });
+      log.forEach(function(e){
+        if ('owed' in e || 'rate' in e || 'paid' in e) return;
+        var row = (e.rid && byId[e.rid]) || byName[(e.name || '').toLowerCase() + '|' + (e.serviceAddr || '').toLowerCase()];
+        e.rate = row ? row.rate : null; e.freq = row ? row.freq : ''; e.owed = row ? row.owed : null; e.paid = row ? row.paid : null; e.paidDate = row ? row.paidDate : '';
+      });
+    }
+    var m = r.meta || {};
+    state.rows = rows; state.log = log;
+    state.examples = r.meta ? !!m.examples : false;
+    state.lastSave = m.lastSave || null;
+    state.routes = Array.isArray(m.routes) ? m.routes : [];
+    if (m.route) state.route = m.route;
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+    if (sync.canWrite && diffOps().length) scheduleSync();   /* migrates older shared data and fills backfilled money */
+    render();
+  }
+  function evaluate(){
+    if (sync.mode === 'local' || sync.mode === 'shared') return;
+    if (!sync.fresh.customers || !sync.fresh.logs || !sync.fresh.meta || (sync.ledger && !sync.fresh.ledger)) return;
+    clearTimeout(sync.slowTimer); sync.slow = false;
+    if (remoteHasData()){
+      var localHasReal = !state.examples && (state.rows.length || state.log.length), differs = false;
+      if (localHasReal){
+        var ld = docsFromState();
+        Object.keys(ld).forEach(function(k){ if (k !== 'meta/state' && sync.known[k] !== canon(ld[k])) differs = true; });
+      }
+      if (differs){ try{ localStorage.setItem(KEY + '-backup', JSON.stringify(state)); }catch(e){} notice = 'Loaded the shared list. The list that was on this device was kept as a backup copy.'; }
+      sync.mode = 'shared';
+      sync.applyLater = true; tryApply();
+      renderSync(); render();
+    } else {
+      sync.mode = 'offer';
+      renderSync();
+    }
+  }
+  function startSharing(){
+    if (sync.mode !== 'offer' || !sync.canWrite || !sync.ledger) return;
+    sync.mode = 'shared'; sync.known = {}; sync.raw = {};
+    scheduleSync(); flush();
+    notice = 'Sharing is on. Invite people from the Share menu: Contributor for drivers, Editor for your accountant.';
+    render();
+  }
+  function renderSync(){
+    var bar = $('syncbar'), txt = $('sync-text'), btn = $('sync-start');
+    var m = sync.mode, s = 'local', t = '', showBtn = false;
+    if (m === 'local'){ t = 'Saved on this device only. Not password protected.'; }
+    else if (m === 'connecting'){ t = sync.slow ? 'Cannot reach the shared list yet. Showing this device’s copy.' : 'Connecting to the shared list…'; }
+    else if (m === 'offer'){
+      if (sync.canWrite && sync.ledger){ t = 'Not shared yet. Turn on sharing to use the same list on every device.'; showBtn = true; }
+      else t = 'No shared list yet. Ask the owner to turn on sharing.';
+    } else {
+      s = sync.err ? 'error' : 'shared';
+      if (sync.err) t = sync.err;
+      else if (!sync.canWrite) t = 'Shared list · view only. Ask the owner to make you a Contributor to edit.';
+      else if (sync.dirty || sync.writing) t = 'Shared list · saving…';
+      else t = 'Shared list · signed in as ' + (sync.level === 'owner' ? 'the owner' : (sync.level === 'admin' ? 'an editor' : 'a contributor')) + ' · changes sync live.';
+    }
+    bar.hidden = false; bar.setAttribute('data-s', s);
+    txt.textContent = t; btn.hidden = !showBtn;
+  }
+  function applyRO(){
+    if (sync.mode !== 'shared' || sync.canWrite) return;
+    var v = view();
+    var sel = '#actions button, #weekpanel button, #weekpanel input';
+    if (v !== 'log') sel += ', #stage input, #stage select, #stage textarea, #stage button[data-act]';
+    Array.prototype.forEach.call(document.querySelectorAll(sel), function(el){ el.disabled = true; });
+  }
+  function sub(coll, key){
+    sync.db.collection(coll).onSnapshot(function(snap){
+      var o = {}, pre = coll + '/';
+      Object.keys(sync.known).forEach(function(k){ if (k.indexOf(pre) === 0){ delete sync.known[k]; delete sync.raw[k]; } });
+      snap.docs.forEach(function(d){ var data = d.data(); o[d.id] = data; sync.raw[pre + d.id] = data; sync.known[pre + d.id] = canon(proj(pre + d.id, data)); });
+      sync.remote[key] = o;
+      if (!snap.metadata.fromCache) sync.fresh[key] = true;
+      afterSnap();
+    }, snapErr);
+  }
+  function afterSnap(){
+    if (sync.mode === 'shared'){ tryApply(); renderSync(); } else evaluate();
+  }
+  function snapErr(e){
+    sync.err = 'Lost connection to the shared list. Reload to reconnect.';
+    if (sync.mode !== 'shared'){ sync.mode = 'local'; sync.err = ''; }
+    renderSync();
+  }
+  /* ---------- who is allowed to be what ---------- */
+  function allowedRoles(){
+    if (!sync.level) return ['driver','accountant','owner'];
+    if (sync.level === 'owner') return ['owner','accountant','driver'];
+    if (sync.level === 'admin') return ['accountant','driver'];
+    return ['driver'];
+  }
+  function announce(){
+    /* Tell the owner who is here: a live presence marker, plus a last-opened note kept in the database. */
+    if (sync.room){ try{ sync.room.presence({role:role, level:sync.level || ''}); }catch(e){} }
+    if (!sync.announced && sync.db && sync.uid && sync.mode !== 'local'){
+      sync.announced = true;
+      sync.db.doc('people/' + sync.uid).set({at:new Date().toISOString(), role:role, level:sync.level}).catch(function(){});
+    }
+  }
+  function ensureNames(ids){
+    if (!sync.user || !sync.user.profiles) return;
+    var need = ids.filter(function(i){ return i && !(i in sync.names); });
+    if (!need.length) return;
+    sync.user.profiles(need).then(function(m){
+      need.forEach(function(i){ sync.names[i] = (m[i] && m[i].name) || ''; });
+      if (view() === 'copies' && !editing()) render();
+    });
+  }
+  var levelDone = false;
+  function levelReady(){
+    if (levelDone) return; levelDone = true;
+    var a = allowedRoles();
+    if (a.length === 1) chooseRole(a[0]); else showGate();
+  }
+  function initSync(){
+    renderSync();
+    setTimeout(levelReady, 12000);
+    if (!window.claude || !window.claude.use){ levelReady(); return; }
+    Promise.all([window.claude.use('db'), window.claude.use('user'), window.claude.use('room').catch(function(){ return null; })]).then(function(res){
+      var db = res[0], user = res[1]; sync.user = user; sync.room = res[2] || null;
+      if (!db){ levelReady(); return; }
+      var ask = user ? Promise.all([user.isOwner(), user.canEdit(), user.can ? user.can('data.write') : null, user.id()]) : Promise.resolve([false, false, null, null]);
+      return ask.then(function(a){
+        sync.db = db; sync.mode = 'connecting';
+        sync.level = a[0] ? 'owner' : (a[1] ? 'admin' : 'member');
+        sync.ledger = sync.level !== 'member';
+        if (!sync.ledger){   /* a shared browser may still hold money from an earlier owner session */
+          state.rows.forEach(function(r){ LEDGER_F.forEach(function(g){ r[g] = blank()[g]; }); });
+          state.log = state.log.map(function(x){ return omit(x, LOG_MONEY); });
+          try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+        }
+        sync.uid = a[3] || null;
+        if (a[2] === false) sync.canWrite = false;
+        sync.slowTimer = setTimeout(function(){ sync.slow = true; renderSync(); }, 10000);
+        renderSync();
+        levelReady();
+        sub('customers', 'customers');
+        sub('logs', 'logs');
+        if (sync.ledger) sub('ledger', 'ledger');
+        db.collection('copies').orderBy('at', 'desc').limit(50).onSnapshot(function(snap){
+          sync.copies = snap.docs.map(function(d){ return {id:d.id, data:d.data()}; });
+          if (view() === 'copies' && !editing()) render();
+        }, function(){});
+        if (sync.ledger){
+          db.collection('people').onSnapshot(function(snap){
+            sync.people = snap.docs.map(function(d){ return {id:d.id, data:d.data()}; });
+            if (view() === 'copies' && !editing()) render();
+          }, function(){});
+          if (sync.room){
+            try{ sync.room.onPeers(function(ch){ sync.peers = ch.peers; if (view() === 'copies' && !editing()) render(); }, function(){}); }catch(e){}
+          }
+        }
+        db.doc('meta/state').onSnapshot(function(d){
+          sync.remote.meta = d.exists ? d.data() : null;
+          if (d.exists) sync.known['meta/state'] = canon(d.data()); else delete sync.known['meta/state'];
+          if (!d.metadata.fromCache) sync.fresh.meta = true;
+          afterSnap();
+        }, snapErr);
+      });
+    }).catch(function(){ levelReady(); });
+  }
+  document.addEventListener('focusout', function(){ setTimeout(function(){ if (sync.applyLater && !editing()) tryApply(); }, 50); });
 
   function $(id){ return document.getElementById(id); }
   function esc(s){ return String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
@@ -240,7 +637,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   }
   function view(){
     var h = location.hash;
-    return h === '#accountant' ? 'accountant' : (h === '#import' ? 'import' : (h === '#log' ? 'log' : 'driver'));
+    return h === '#accountant' ? 'accountant' : (h === '#import' ? 'import' : (h === '#log' ? 'log' : (h === '#copies' ? 'copies' : 'driver')));
   }
   function flagHtml(r){
     return r.flag ? '<div class="flag"><span>Check: '+esc(r.flag)+'</span><button class="btn small" type="button" data-act="dismiss">Dismiss</button></div>' : '';
@@ -301,6 +698,26 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     });
     return h + '</tbody>';
   }
+  var owedOpen = {};
+  function owedMeta(r){
+    if (!r.owedNote) return '';
+    var auto = r.owedAuto, edited = auto != null && Math.abs((r.owed || 0) - auto) > 0.005, open = !!owedOpen[r.id];
+    var h = '<div class="owedrow"><button class="btn small info" type="button" data-act="owed-info" aria-expanded="' + open + '" aria-label="Where this amount came from" title="Where this amount came from">i</button>'
+      + '<span class="owedtag" data-e="' + (edited ? 1 : 0) + '">' + (edited ? 'Changed' : 'From note') + '</span></div>';
+    if (open){
+      var dates = (r.owedNote.match(/\b\d{1,2}[-\/]\d{1,2}\b/g) || []).length;
+      h += '<div class="owedinfo"><p class="q">\u201c' + esc(r.owedNote) + '\u201d</p>'
+        + '<p>Filled in automatically: <b>' + (auto == null ? 'no amount' : money(auto)) + '</b> from this note.' + (edited ? ' You changed it to <b>' + money(r.owed) + '</b>.' : ' Type a different amount in the box above to override it.') + '</p>'
+        + (dates > 1 && !edited ? '<p class="hint">The note lists ' + dates + ' dates. If the amount is per visit, change it to the total.</p>' : '')
+        + '<label>Why it changed (optional)<textarea data-f="owedAdj" rows="2" placeholder="e.g. Took $10 off next month\u2019s bill">' + esc(r.owedAdj) + '</textarea></label>'
+        + (edited && auto != null ? '<button class="btn small" type="button" data-act="owed-reset">Reset to ' + money(auto) + '</button>' : '')
+        + '</div>';
+    }
+    return h;
+  }
+  function refreshOwedMeta(tr, r){
+    var m = tr.querySelector('.owedmeta'); if (m) m.innerHTML = owedMeta(r);
+  }
   function acctTable(){
     var h = '<thead><tr><th class="rn">#</th><th class="sticky" style="min-width:170px">Customer</th><th style="min-width:230px">Billing address</th><th>Yard</th><th>Paid at yard</th><th style="min-width:150px">Rate</th><th style="min-width:120px">Amount owed</th><th style="min-width:150px">Amount paid</th><th style="min-width:150px">Date paid</th><th style="min-width:120px">Balance</th><th style="min-width:200px">Contact</th><th style="min-width:230px">Accountant notes</th></tr></thead><tbody>';
     state.rows.forEach(function(r,i){
@@ -312,7 +729,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
         + '<td class="mapcell"><span class="chip" data-v="'+keyFor('status',r.status)+'">'+esc(r.status)+'</span></td>'
         + '<td class="mapcell"><span class="chip" data-v="'+keyFor('pay',r.pay)+'">'+esc(r.pay)+'</span></td>'
         + '<td>'+moneyInp('rate',r.rate,'Rate')+inp('freq',r.freq,'How often','text','stack')+'</td>'
-        + '<td>'+moneyInp('owed',r.owed)+'</td>'
+        + '<td>'+moneyInp('owed',r.owed)+'<div class="owedmeta">'+owedMeta(r)+'</div></td>'
         + '<td>'+moneyInp('paid',r.paid)+'<div style="padding:0 6px 6px;text-align:right"><button class="btn small" type="button" data-act="payfull">Paid in full</button></div></td>'
         + '<td>'+inp('paidDate',r.paidDate,'','date')+'</td>'
         + '<td class="bal" data-v="'+(bal>0.005?'bad':(r.owed?'ok':'none'))+'">'+money(bal)+'</td>'
@@ -336,7 +753,8 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     var rows = state.rows, el = $('summary');
     renderRoute();
     renderWeek();
-    if (!rows.length || view() === 'import' || view() === 'log'){ el.innerHTML = ''; return; }
+    renderCharts();
+    if (!rows.length || view() === 'import' || view() === 'log' || view() === 'copies'){ el.innerHTML = ''; return; }
     if (view() === 'driver'){
       var done = rows.filter(function(r){ return r.status === 'Done'; }).length;
       var skipped = rows.filter(function(r){ return r.status.indexOf('Skipped') === 0; }).length;
@@ -361,20 +779,33 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     driver: 'Tap Directions to open the route, then set whether the yard is done, whether you were paid, and add any notes.',
     accountant: 'Same customers as the driver sees, with the billing address, what is owed and paid, and your own notes.',
     'import': 'Paste a list from Excel, Google Sheets or a text file. Routebook finds the names, addresses and prices, then points out anything that looks off before you add it.',
+    copies: 'Copies that your driver or accountant sent you land here. You can also save a full backup of the whole ledger to your own computer.',
     log: 'Every week you save lands here, one line per customer: done or not done, the date completed, payment given and notes. Download it as an Excel file whenever you need a copy.'
   };
-  function render(){
+  function render(){ renderMain(); renderSend(); applyRO(); }
+  function renderMain(){
     var v = view();
-    ['driver','accountant','import','log'].forEach(function(n){
+    if (role && ROLES[role].tabs.indexOf(v) < 0){ location.hash = ROLES[role].home; return; }
+    ['driver','accountant','import','log','copies'].forEach(function(n){
       var a = $('nav-' + n);
+      a.hidden = !!role && ROLES[role].tabs.indexOf(n) < 0;
       if (n === v) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current');
     });
+    $('whowrap').hidden = !role;
+    $('send-open').hidden = role === 'owner';
+    $('role-switch').hidden = allowedRoles().length < 2;
+    $('who').textContent = role ? 'Signed in as ' + ROLES[role].label : '';
     $('help').textContent = HELP[v];
-    $('banner').hidden = !state.examples || v === 'import' || v === 'log';
-    $('actions').hidden = v === 'import' || v === 'log';
+    $('banner').hidden = !state.examples || v === 'import' || v === 'log' || v === 'copies';
+    $('actions').hidden = v === 'import' || v === 'log' || v === 'copies';
     if (notice){ $('notice-text').textContent = notice; $('notice').hidden = false; notice = ''; }
     else $('notice').hidden = true;
     var stage = $('stage');
+    if (v === 'copies'){
+      stage.innerHTML = copiesHtml();
+      summary();
+      return;
+    }
     if (v === 'log'){
       stage.innerHTML = logHtml();
       summary();
@@ -421,6 +852,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     var val = t.value;
     if (f === 'owed' || f === 'paid' || f === 'rate'){ val = val === '' ? null : parseFloat(val); if (val !== null && isNaN(val)) val = null; }
     r[f] = val;
+    if (f === 'owed' && e.type === 'input') refreshOwedMeta(tr, r);
     if (f === 'status'){
       r.doneDate = val === 'Done' ? (r.doneDate || today()) : '';
       var dd = tr.querySelector('[data-f="doneDate"]'); if (dd) dd.value = r.doneDate;
@@ -439,7 +871,25 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     var act = btn.getAttribute('data-act');
     var tr = btn.closest('tr');
     var r = tr ? find(tr.getAttribute('data-id')) : null;
+    if (act === 'owed-info' && r){ owedOpen[r.id] = !owedOpen[r.id]; refreshOwedMeta(tr, r); return; }
+    if (act === 'owed-reset' && r){
+      r.owed = r.owedAuto; var oi = tr.querySelector('[data-f="owed"]'); if (oi) oi.value = r.owed == null ? '' : r.owed;
+      derive(tr, r); refreshOwedMeta(tr, r); save(); return;
+    }
+    if (act === 'send-open'){ sendState.open = true; sendState.status = ''; renderSend(); var sm = $('send-msg'); if (sm) sm.focus(); return; }
+    if (act === 'send-cancel'){ sendState.open = false; renderSend(); return; }
+    if (act === 'send-go'){ sendCopy(); return; }
+    if (act === 'backup'){ backupAll(); return; }
+    if (act === 'copy-dl'){ downloadCopy(btn.getAttribute('data-cid')); return; }
+    if (act === 'copy-del'){
+      var cid = btn.getAttribute('data-cid');
+      if (copyArm !== cid){ copyArm = cid; render(); return; }
+      copyArm = ''; deleteCopy(cid); return;
+    }
     if (act === 'close-notice'){ $('notice').hidden = true; return; }
+    if (act === 'role'){ chooseRole(btn.getAttribute('data-role')); return; }
+    if (act === 'sync-start'){ startSharing(); return; }
+    if (act === 'role-switch'){ role = ''; weekOpen = false; showGate(); render(); return; }
     if (act === 'wk-open'){
       weekOpen = true; weekDate = today(); renderWeek();
       var wb = $('wk-save') || $('weekpanel').querySelector('button');
@@ -464,7 +914,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     }
     if (act === 'import-add'){ addImported(); return; }
     if ((act === 'up' || act === 'down') && r){ moveRow(r.id, act === 'up' ? -1 : 1); return; }
-    if (act === 'rt-swap'){ var rs = routeState(), tmp = rs.startId; rs.startId = rs.endId; rs.endId = tmp; save(); renderRoute(); markRoute(); return; }
+    if (act === 'rt-swap'){ var rs = routeState(), tmp = rs.startId; rs.startId = rs.endId; rs.endId = tmp; rs.full = false; save(); renderRoute(); markRoute(); return; }
     if (act === 'rt-reorder'){ reorderToRoute(); return; }
     if (act === 'rt-undo'){ undoOrder(); return; }
     if (act === 'rt-save'){
@@ -477,7 +927,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
       var rid = btn.getAttribute('data-rid'), list = state.routes || [];
       if (act === 'rt-del'){ state.routes = list.filter(function(s){ return s.id !== rid; }); save(); renderRoute(); return; }
       var hit = list.filter(function(s){ return s.id === rid; })[0];
-      if (hit){ state.route = {startId:hit.startId, endId:hit.endId, pending:hit.pending}; save(); renderRoute(); markRoute(); }
+      if (hit){ state.route = {startId:hit.startId, endId:hit.endId, pending:hit.pending, full:false}; save(); renderRoute(); markRoute(); }
       return;
     }
     if (act === 'add'){
@@ -517,7 +967,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     '3. (.014) Marcus Hale (15 min) (905 140th Ave. SE Lake Stevens, WA 98258) (Phone # 425.555.0149) $45 cut every 2 weeks – owes $45 for 3-20, 4-3',
     '4. (.014) Priya Nanda (10 min) (4410 31st St. SE Lake Stevens, WA) (Phone # 425.555.0112) $40 cut every 2 weeks'
   ].join('\n');
-  var importState = {text:'', isSample:false, init:false, result:null};
+  var importState = {text:'', isSample:false, init:false, result:null, autoPlace:true};
 
   var HDR = [
     ['bStreet', /^(billing|bill to|bill|mailing)( address| street| addr| address 1)?$/],
@@ -627,7 +1077,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   }
   function mkRow(o){
     return {name:o.name || '', serviceAddr:o.serviceAddr || '', billingAddr:o.billingAddr || '', job:o.job || JOBS[0],
-      jobUnknown:!!o.jobUnknown, rate:o.rate == null ? null : o.rate, owed:o.owed == null ? null : o.owed,
+      jobUnknown:!!o.jobUnknown, rate:o.rate == null ? null : o.rate, owed:o.owed == null ? null : o.owed, owedNote:o.owedNote || '', owedAuto:(o.owedNote && o.owed != null) ? o.owed : null,
       badPrice:o.badPrice || '', freq:o.freq || '', notes:o.notes || '', acctNotes:o.acctNotes || '',
       phone:o.phone || '', email:o.email || '', time:o.time || '',
       colWarn:o.colWarn || '', include:true, issues:[]};
@@ -661,7 +1111,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     var groups = [], m, re = /\(([^()]*)\)/g;
     while ((m = re.exec(text))) groups.push(clean(m[1]));
     var outside = clean(text.replace(/\([^()]*\)/g, ' '));
-    var o = {name:'', serviceAddr:'', billingAddr:'', job:'Other', rate:null, freq:'', owed:null, notes:'', acctNotes:'', phone:'', email:'', time:''};
+    var o = {name:'', serviceAddr:'', billingAddr:'', job:'Other', rate:null, freq:'', owed:null, owedNote:'', notes:'', acctNotes:'', phone:'', email:'', time:''};
     var dn = [], an = [];
     groups.forEach(function(g){
       if (!g) return;
@@ -669,7 +1119,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
       if (em){ if (!o.email) o.email = em[0]; return; }
       if (PHONE.test(g)){ if (!o.phone) o.phone = normPhone(g); return; }
       if (/^[\d.]+\s*(hr|hrs|hour|hours|min|mins|minute|minutes)\b/i.test(g)){ o.time = g; return; }
-      if (/^\.?\d+(\.\d+)?$/.test(g)){ dn.push('Ref ' + g); return; }
+      if (/^\.?\d+(\.\d+)?$/.test(g)) return;
       if ((/^\d+[a-z]?\s+\S/i.test(g) && (/\b\d{5}(-\d{4})?\b/.test(g) || STREET.test(g))) || /^p\.?\s*o\.?\s*box/i.test(g)){
         if (!o.serviceAddr) o.serviceAddr = g; return;
       }
@@ -697,7 +1147,11 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
       if (fm){ o.freq = fm[0].toLowerCase(); mainStr = clean(mainStr.replace(fm[0], ' ')); }
       mainStr = mainStr.replace(/\s+,/g, ',').replace(/^(cuts?|mow|mowing)\b[\s,]*/i, '');
       if (sentence(mainStr)) dn.push(sentence(mainStr));
-      if (owes.length) an.push(sentence(owes.join('; ')));
+      if (owes.length){
+        var ot = sentence(owes.join('; ')); an.push(ot);
+        var om = ot.match(/\$\s*([\d,]+(?:\.\d{1,2})?)/);
+        if (om){ o.owed = parseFloat(om[1].replace(/,/g, '')); o.owedNote = ot; }
+      }
       if (status.length) an.push('Status: ' + clean(status.join(' ')));
     }
     o.notes = dn.map(function(x){ return x.replace(/[.;\s]+$/, ''); }).join('. ');
@@ -811,11 +1265,12 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     return h;
   }
   function importTable(res){
-    var h = '<div class="gridwrap importtable"><table><thead><tr><th style="width:76px">Add</th><th style="min-width:220px">Check</th><th style="min-width:170px">Customer</th><th style="min-width:230px">Service address</th><th style="min-width:230px">Billing address</th><th style="min-width:150px">Job</th><th style="min-width:150px">Rate</th><th style="min-width:100px">Time</th><th style="min-width:190px">Contact</th><th style="min-width:220px">Driver notes</th><th style="min-width:220px">Accountant notes</th></tr></thead><tbody>';
+    var h = '<div class="gridwrap importtable"><table><thead><tr><th style="width:76px">Add</th><th style="min-width:220px">Check</th><th style="min-width:210px">Where it goes</th><th style="min-width:170px">Customer</th><th style="min-width:230px">Service address</th><th style="min-width:230px">Billing address</th><th style="min-width:150px">Job</th><th style="min-width:150px">Rate</th><th style="min-width:100px">Time</th><th style="min-width:190px">Contact</th><th style="min-width:220px">Driver notes</th><th style="min-width:220px">Accountant notes</th></tr></thead><tbody>';
     res.rows.forEach(function(r, i){
       h += '<tr data-i="' + i + '"' + (r.include ? '' : ' class="skip"') + '>'
         + '<td class="inc"><input type="checkbox" data-f="include" aria-label="Add this customer"' + (r.include ? ' checked' : '') + '><span class="rn-n">' + (i + 1) + '</span></td>'
         + '<td class="chk">' + checkHtml(r) + '</td>'
+        + '<td class="where">' + esc(r.include ? (r.where || '') : 'Not added') + '</td>'
         + '<td>' + inp('name', r.name, 'Customer name') + '</td>'
         + '<td>' + ta('serviceAddr', r.serviceAddr, 'Street, city, ZIP') + '</td>'
         + '<td>' + ta('billingAddr', r.billingAddr, 'Same as service address') + '</td>'
@@ -841,22 +1296,27 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     if (!res.rows.length) return h + '<div class="empty" style="margin-top:16px"><b>No customers found</b>Check that each customer is on its own line, then press Scan list.</div>';
     var n = res.rows.filter(function(r){ return r.include; }).length;
     var anyBad = res.rows.some(function(r){ return r.issues.length; });
+    simulatePlacement(res);
     h += '<div class="scan-top" id="scan-top">' + scanTopHtml() + '</div>'
       + '<p class="routenote">' + esc(res.notes.join(' ')) + (res.used.length ? ' Used: ' + esc(res.used.join(', ')) + '.' : '') + (res.skipped.length ? ' Skipped: ' + esc(res.skipped.join(', ')) + '.' : '') + '</p>'
       + '<div class="row-actions" style="margin-top:10px"><button class="btn primary" type="button" id="import-add" data-act="import-add"' + (n ? '' : ' disabled') + '>' + addLabel(n) + '</button>'
       + (anyBad ? '<button class="btn" type="button" data-act="import-uncheck">Uncheck rows that need a look</button>' : '')
       + (state.examples ? '<span class="routenote">Your example customers will be replaced.</span>' : '')
       + '</div>'
+      + '<div class="row-actions" style="margin-top:8px"><label class="inline-check"><input type="checkbox" id="auto-place"' + (s.autoPlace ? ' checked' : '') + '>Place each new customer next to its nearest address</label></div>'
+      + '<p class="routenote">Nearest is worked out from the address text: same street first, then nearby numbered streets, then the same ZIP or city. Customers it cannot match go to the end of the list. Map pins will make this exact later.</p>'
       + importTable(res);
     return h;
   }
   function refreshChecks(){
     var res = importState.result; if (!res) return;
     validateAll(res.rows);
+    simulatePlacement(res);
     var trs = stage.querySelectorAll('tr[data-i]');
     for (var i = 0; i < trs.length; i++){
       var r = res.rows[+trs[i].getAttribute('data-i')];
       var c = trs[i].querySelector('.chk'); if (c) c.innerHTML = checkHtml(r);
+      var wh = trs[i].querySelector('.where'); if (wh) wh.textContent = r.include ? (r.where || '') : 'Not added';
       trs[i].classList.toggle('skip', !r.include);
     }
     var top = $('scan-top'); if (top) top.innerHTML = scanTopHtml();
@@ -866,6 +1326,7 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   function onImportEdit(e){
     var t = e.target;
     if (t.id === 'paste-box'){ importState.text = t.value; importState.isSample = false; return; }
+    if (t.id === 'auto-place'){ importState.autoPlace = t.checked; refreshChecks(); return; }
     var f = t.getAttribute && t.getAttribute('data-f'); if (!f) return;
     var tr = t.closest('tr'); if (!tr || !importState.result) return;
     var r = importState.result.rows[+tr.getAttribute('data-i')]; if (!r) return;
@@ -900,27 +1361,125 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     var made = picked.map(function(r){
       var n = blank();
       n.name = clean(r.name); n.serviceAddr = clean(r.serviceAddr); n.billingAddr = clean(r.billingAddr);
-      n.job = r.job; n.rate = r.rate; n.freq = clean(r.freq); n.owed = r.owed; n.driverNotes = clean(r.notes);
+      n.job = r.job; n.rate = r.rate; n.freq = clean(r.freq); n.owed = r.owed; n.owedNote = r.owedNote || ''; n.owedAuto = r.owedAuto == null ? null : r.owedAuto; n.driverNotes = clean(r.notes);
       n.acctNotes = clean(r.acctNotes); n.phone = clean(r.phone); n.email = clean(r.email); n.time = clean(r.time);
       n.flag = r.issues.join('. ');
       return n;
     });
     var flagged = made.filter(function(n){ return n.flag; }).length;
     if (state.examples){ state.rows = []; state.examples = false; }
-    state.rows = state.rows.concat(made);
+    var near = 0;
+    made.forEach(function(n){
+      var p = importState.autoPlace ? placeIndex(state.rows, n.serviceAddr) : {index:state.rows.length, near:false};
+      if (p.near) near++;
+      state.rows.splice(p.index, 0, n);
+    });
     save();
-    notice = 'Added ' + made.length + ' customer' + (made.length === 1 ? '' : 's') + ' to the routebook.'
+    notice = 'Added ' + made.length + ' customer' + (made.length === 1 ? '' : 's') + ' to the routebook. '
+      + (importState.autoPlace ? near + ' placed next to a nearby address' + (made.length - near ? ', ' + (made.length - near) + ' at the end of the list.' : '.') : 'All went to the end of the list.')
       + (flagged ? ' ' + flagged + (flagged === 1 ? ' has' : ' have') + ' a flag to check.' : '');
     importState.result = null; importState.text = ''; importState.isSample = false;
     if (location.hash === '#driver') render(); else location.hash = '#driver';
+  }
+
+  /* ---------- address nearness ---------- */
+  /* Works from the address text only. A map with GPS pins can replace nearness() later without touching the callers. */
+  var SUFFIX = {street:'st',st:'st',avenue:'ave',ave:'ave',av:'ave',road:'rd',rd:'rd',drive:'dr',dr:'dr',lane:'ln',ln:'ln',court:'ct',ct:'ct',way:'way',boulevard:'blvd',blvd:'blvd',place:'pl',pl:'pl',circle:'cir',cir:'cir',parkway:'pkwy',pkwy:'pkwy',highway:'hwy',hwy:'hwy',terrace:'ter',ter:'ter',trail:'trl',trl:'trl',loop:'loop'};
+  var DIRS = {n:'n',s:'s',e:'e',w:'w',ne:'ne',nw:'nw',se:'se',sw:'sw',north:'n',south:'s',east:'e',west:'w',northeast:'ne',northwest:'nw',southeast:'se',southwest:'sw'};
+  var infoCache = {};
+  function tokenKey(t){ return String(t).toLowerCase().replace(/[^a-z0-9]/g, ''); }
+  function cityClean(s){
+    return clean(String(s || '').replace(/\b\d{5}(?:-\d{4})?\b/g, '').replace(/\b[A-Za-z]{2}\b\s*$/, '')).toLowerCase();
+  }
+  function addrInfo(addr){
+    var key = clean(addr);
+    if (infoCache[key]) return infoCache[key];
+    var out = {raw:key, num:null, street:'', label:'', city:'', zip:'', gx:null, gy:null};
+    infoCache[key] = out;
+    var parts = key.split(',').map(clean);
+    var zm = /\b(\d{5})(?:-\d{4})?\s*$/.exec(key);
+    if (zm && zm.index > 0) out.zip = zm[1];
+    var toks = (parts[0] || '').split(' ').filter(Boolean);
+    var nm = /^(\d+)[a-z]?$/i.exec(toks[0] || '');
+    if (!nm) return out;
+    out.num = parseInt(nm[1], 10);
+    var si = -1, i;
+    for (i = 2; i < toks.length; i++){ if (SUFFIX[tokenKey(toks[i])]){ si = i; break; } }
+    var end = si >= 0 ? si : toks.length - 1;
+    var after = si >= 0 ? si + 1 : toks.length;
+    if (si >= 0 && after < toks.length && DIRS[tokenKey(toks[after])]){ end = after; after++; }
+    var nameToks = toks.slice(1, end + 1);
+    out.label = nameToks.join(' ').replace(/\.$/, '');
+    out.street = nameToks.map(function(t){ var k = tokenKey(t); return SUFFIX[k] || DIRS[k] || k; }).join(' ');
+    var cityRaw = parts.length >= 2 ? parts[1] : '';
+    out.city = cityClean(cityRaw) || cityClean(toks.slice(after).join(' '));
+    var ni = (nameToks.length > 1 && DIRS[tokenKey(nameToks[0])]) ? 1 : 0;
+    var om = /^(\d+)(?:st|nd|rd|th)$/i.exec(nameToks[ni] || '');
+    if (om && si >= 0){
+      var sfx = SUFFIX[tokenKey(toks[si])], N = parseInt(om[1], 10);
+      if (sfx === 'ave'){ out.gx = N; out.gy = out.num / 100; }
+      else if (sfx === 'st'){ out.gy = N; out.gx = out.num / 100; }
+    }
+    return out;
+  }
+  function sameLocal(a, b){
+    if (a.zip && b.zip) return a.zip === b.zip;
+    if (a.city && b.city) return a.city === b.city;
+    return true;
+  }
+  /* [tier, distance]; lower is closer. Tier 0 same street, 1 nearby numbered streets, 2 same ZIP, 3 same city, 9 unknown */
+  function nearness(a, b){
+    if (!a.street || !b.street || a.num == null || b.num == null) return [9, 0];
+    var local = sameLocal(a, b);
+    if (a.street === b.street && local) return [0, Math.abs(a.num - b.num)];
+    if (local && a.gx != null && b.gx != null) return [1, Math.sqrt(Math.pow(a.gx - b.gx, 2) + Math.pow(a.gy - b.gy, 2))];
+    if (a.zip && b.zip && a.zip === b.zip) return [2, 0];
+    if (a.city && b.city && a.city === b.city) return [3, 0];
+    return [9, 0];
+  }
+  function streetAscending(list, key){
+    var nums = [];
+    list.forEach(function(r){ var i = addrInfo(r.serviceAddr); if (i.street === key && i.num != null) nums.push(i.num); });
+    return nums.length < 2 || nums[0] <= nums[nums.length - 1];
+  }
+  /* where a new address should be inserted into list: next to the nearest existing address */
+  function placeIndex(list, addr){
+    var a = addrInfo(addr), best = null, bi = -1;
+    if (a.street) list.forEach(function(r, i){
+      if (!r.serviceAddr) return;
+      var n = nearness(a, addrInfo(r.serviceAddr));
+      if (n[0] >= 9) return;
+      var better = !best || n[0] < best[0] || (n[0] === best[0] && (n[1] < best[1] || (n[1] === best[1] && n[0] >= 2)));
+      if (better){ best = n; bi = i; }
+    });
+    if (bi < 0) return {index:list.length, near:false, why:list.length ? 'End of the list' : 'Start of the list'};
+    var bname = list[bi].name || 'a customer';
+    if (best[0] === 0){
+      var asc = streetAscending(list, a.street), bnum = addrInfo(list[bi].serviceAddr).num;
+      var after = asc ? a.num >= bnum : a.num <= bnum;
+      return {index:after ? bi + 1 : bi, near:true, why:(after ? 'After ' : 'Before ') + bname + ' (same street)'};
+    }
+    var how = best[0] === 1 ? 'nearby streets' : (best[0] === 2 ? 'same ZIP' : 'same city');
+    return {index:bi + 1, near:true, why:'After ' + bname + ' (' + how + ')'};
+  }
+  function simulatePlacement(res){
+    var base = state.examples ? [] : state.rows.map(function(r){ return {name:r.name, serviceAddr:r.serviceAddr}; });
+    res.rows.forEach(function(r){
+      if (!r.include){ r.where = ''; return; }
+      var p = importState.autoPlace ? placeIndex(base, r.serviceAddr) : {index:base.length, why:base.length ? 'End of the list' : 'Start of the list'};
+      r.where = p.why;
+      base.splice(p.index, 0, {name:r.name, serviceAddr:r.serviceAddr});
+    });
   }
 
   /* ---------- route builder ---------- */
   var orderUndo = [], routeDraft = '';
   function ridx(id){ for (var i = 0; i < state.rows.length; i++) if (state.rows[i].id === id) return i; return -1; }
   function routeState(){
-    var rt = state.route || (state.route = {startId:'', endId:'', pending:true});
+    var rt = state.route || (state.route = {startId:'', endId:'', pending:true, full:true});
     var n = state.rows.length;
+    if (rt.full === undefined) rt.full = !n || !rt.startId || (rt.startId === state.rows[0].id && rt.endId === state.rows[n - 1].id);
+    if (rt.full){ rt.startId = n ? state.rows[0].id : ''; rt.endId = n ? state.rows[n - 1].id : ''; }
     if (ridx(rt.startId) < 0) rt.startId = n ? state.rows[0].id : '';
     if (ridx(rt.endId) < 0) rt.endId = n ? state.rows[n - 1].id : '';
     return rt;
@@ -942,15 +1501,27 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     });
     return {stops:stops, noAddr:noAddr, done:done};
   }
-  /* Google Maps takes 10 stops per link (destination plus 9 waypoints), so longer routes are split into legs */
-  function legLinks(stops){
+  /* Yards on the same street, one after another, make one block. Maps gets one pin per block (the first yard in driving order). */
+  var LEG_BLOCKS = 8;
+  function blocksOf(stops){
     var out = [];
-    for (var s = 0; s < stops.length; s += 10){
-      var chunk = stops.slice(s, s + 10), dest = chunk[chunk.length - 1];
+    stops.forEach(function(r){
+      var a = addrInfo(r.serviceAddr), last = out[out.length - 1];
+      if (last && a.street && last.info.street === a.street && sameLocal(last.info, a)) last.stops.push(r);
+      else out.push({info:a, label:a.label || r.serviceAddr, stops:[r]});
+    });
+    return out;
+  }
+  /* each leg carries up to 8 blocks, and the next leg starts where the last one ended */
+  function legLinks(blocks){
+    var out = [];
+    function addr(b){ return encodeURIComponent(b.stops[0].serviceAddr.trim()); }
+    for (var s = 0; s < blocks.length; s += LEG_BLOCKS){
+      var chunk = blocks.slice(s, s + LEG_BLOCKS), dest = chunk[chunk.length - 1];
       var u = 'https://www.google.com/maps/dir/?api=1&travelmode=driving';
-      if (s > 0) u += '&origin=' + encodeURIComponent(stops[s - 1].serviceAddr.trim());
-      u += '&destination=' + encodeURIComponent(dest.serviceAddr.trim());
-      if (chunk.length > 1) u += '&waypoints=' + chunk.slice(0, -1).map(function(r){ return encodeURIComponent(r.serviceAddr.trim()); }).join('%7C');
+      if (s > 0) u += '&origin=' + addr(blocks[s - 1]);
+      u += '&destination=' + addr(dest);
+      if (chunk.length > 1) u += '&waypoints=' + chunk.slice(0, -1).map(addr).join('%7C');
       out.push({href:u, from:s + 1, to:s + chunk.length});
     }
     return out;
@@ -958,32 +1529,37 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   function renderRoute(){
     var box = $('routepanel');
     if (view() !== 'driver' || !state.rows.length){ box.hidden = true; box.innerHTML = ''; return; }
-    var rt = routeState(), plan = routePlan(), legs = legLinks(plan.stops);
+    var rt = routeState(), plan = routePlan(), blocks = blocksOf(plan.stops), legs = legLinks(blocks);
     var a = ridx(rt.startId), b = ridx(rt.endId), backwards = a > b;
     function opts(sel){
       return state.rows.map(function(r, i){ return '<option value="' + r.id + '"' + (r.id === sel ? ' selected' : '') + '>' + (i + 1) + '. ' + esc(r.name || 'Unnamed') + '</option>'; }).join('');
     }
     var h = '<h2>Build a route</h2>'
-      + '<p class="rp-help">Pick where to start and where to finish. Every customer in between is your route, and Maps goes in exactly this order. Press Flip direction to drive the same stretch backwards.</p>'
+      + '<p class="rp-help">The whole list is your route until you pick a start and finish of your own, so new customers join it automatically. Every customer in between is your route, and Maps goes in exactly this order. Press Flip direction to drive the same stretch backwards. Yards on the same street are grouped into one block, and Maps gets one pin per block, up to ' + LEG_BLOCKS + ' blocks per leg.</p>'
       + '<div class="rp-controls"><label>Start at<select id="rt-start">' + opts(rt.startId) + '</select></label>'
       + '<button class="btn" type="button" data-act="rt-swap">Flip direction</button>'
       + '<label>End at<select id="rt-end">' + opts(rt.endId) + '</select></label>'
       + '<label class="inline"><input type="checkbox" id="rt-pending"' + (rt.pending ? ' checked' : '') + '>Only yards still pending</label></div>'
       + '<div class="rp-actions">';
     if (legs.length === 1) h += '<a class="btn primary" target="_blank" rel="noopener" href="' + legs[0].href + '">Open route in Maps</a>';
-    else if (legs.length) legs.forEach(function(l, i){ h += '<a class="btn' + (i === 0 ? ' primary' : '') + '" target="_blank" rel="noopener" href="' + l.href + '">Leg ' + (i + 1) + ': stops ' + l.from + '–' + l.to + '</a>'; });
+    else if (legs.length) legs.forEach(function(l, i){ h += '<a class="btn' + (i === 0 ? ' primary' : '') + '" target="_blank" rel="noopener" href="' + l.href + '">Leg ' + (i + 1) + ': blocks ' + l.from + '–' + l.to + '</a>'; });
     else h += '<span class="btn off">Open route in Maps</span>';
     if (backwards) h += '<button class="btn" type="button" data-act="rt-reorder">Reorder the list to match</button>';
     if (orderUndo.length) h += '<button class="btn" type="button" data-act="rt-undo">Undo last reorder</button>';
     h += '</div>';
     var notes = [];
-    notes.push(plan.stops.length + (plan.stops.length === 1 ? ' stop' : ' stops') + (a === b ? '' : (backwards ? ', driving up the list' : ', driving down the list')) + '.');
+    notes.push(plan.stops.length + (plan.stops.length === 1 ? ' yard' : ' yards') + ' in ' + blocks.length + (blocks.length === 1 ? ' block' : ' blocks') + (a === b ? '' : (backwards ? ', driving up the list' : ', driving down the list')) + '.');
     if (plan.done) notes.push(plan.done + (plan.done === 1 ? ' finished yard is' : ' finished yards are') + ' left out.');
     if (plan.noAddr.length) notes.push('No address for ' + plan.noAddr.map(esc).join(', ') + ', so left out.');
-    if (legs.length > 1) notes.push('Maps takes 10 stops at a time, so this opens in ' + legs.length + ' legs. Each leg starts where the last one ended.');
+    if (legs.length > 1) notes.push('Each leg holds up to ' + LEG_BLOCKS + ' blocks, so this opens in ' + legs.length + ' legs. Each leg starts where the last one ended.');
     h += '<p class="rp-note">' + notes.join(' ') + '</p>';
-    h += '<ol class="rp-stops">' + plan.stops.slice(0, 30).map(function(r, i){ return '<li title="' + esc(r.serviceAddr) + '"><b>' + (i + 1) + '</b>' + esc(r.name || 'Unnamed') + '</li>'; }).join('')
-      + (plan.stops.length > 30 ? '<li>+' + (plan.stops.length - 30) + ' more</li>' : '') + '</ol>';
+    h += '<ol class="rp-stops">' + blocks.slice(0, 30).map(function(bk, i){
+        var many = bk.stops.length > 1;
+        var lab = many ? esc(bk.label) + ' ×' + bk.stops.length : esc(bk.stops[0].name || 'Unnamed');
+        var tip = bk.stops.map(function(r){ return (r.name || 'Unnamed') + ' (' + r.serviceAddr + ')'; }).join('; ');
+        return '<li title="' + esc(tip) + '"><b>' + (i + 1) + '</b>' + lab + '</li>';
+      }).join('')
+      + (blocks.length > 30 ? '<li>+' + (blocks.length - 30) + ' more</li>' : '') + '</ol>';
     h += '<div class="rp-saved"><input type="text" id="rt-name" maxlength="60" placeholder="Name this route, e.g. Reverse, north side" value="' + esc(routeDraft) + '" aria-label="Route name">'
       + '<button class="btn" type="button" data-act="rt-save">Save route</button>';
     (state.routes || []).forEach(function(s){
@@ -997,12 +1573,12 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   function markRoute(){
     if (view() !== 'driver') return;
     var pos = {};
-    routePlan().stops.forEach(function(r, i){ pos[r.id] = i + 1; });
+    blocksOf(routePlan().stops).forEach(function(bk, i){ bk.stops.forEach(function(r){ pos[r.id] = i + 1; }); });
     var trs = stage.querySelectorAll('tr[data-id]');
     for (var i = 0; i < trs.length; i++){
       var n = pos[trs[i].getAttribute('data-id')];
       trs[i].classList.toggle('inroute', !!n);
-      var s = trs[i].querySelector('.stopn'); if (s) s.textContent = n ? 'stop ' + n : '';
+      var s = trs[i].querySelector('.stopn'); if (s) s.textContent = n ? 'block ' + n : '';
     }
   }
   function onRouteEdit(e){
@@ -1010,8 +1586,8 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     if (id === 'rt-name'){ if (e.type === 'input') routeDraft = t.value; return; }
     if (e.type !== 'change') return;
     var rt = routeState();
-    if (id === 'rt-start') rt.startId = t.value;
-    else if (id === 'rt-end') rt.endId = t.value;
+    if (id === 'rt-start'){ rt.startId = t.value; rt.full = false; }
+    else if (id === 'rt-end'){ rt.endId = t.value; rt.full = false; }
     else if (id === 'rt-pending') rt.pending = t.checked;
     else return;
     save(); renderRoute(); markRoute();
@@ -1107,9 +1683,10 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
       var done = r.status === 'Done';
       var reason = done ? '' : (r.status.indexOf('Skipped') === 0 ? r.status.replace(/^Skipped:\s*/, '') : 'Not visited');
       if (done) nd++; else nn++;
-      added.push({id:uid(), batch:batch, weekEnding:we, name:r.name, serviceAddr:r.serviceAddr, job:r.job,
+      added.push({id:uid(), rid:r.id, batch:batch, weekEnding:we, name:r.name, serviceAddr:r.serviceAddr, job:r.job,
         done:done ? 'Done' : 'Not done', doneDate:done ? (r.doneDate || we) : '', reason:reason,
         payment:r.pay, rate:r.rate, freq:r.freq, owed:r.owed, paid:r.paid, paidDate:r.paidDate, notes:r.driverNotes});
+      if (sync.mode === 'shared' && !sync.ledger){ var ent = added[added.length - 1]; LOG_MONEY.forEach(function(k){ delete ent[k]; }); }
       prev.push({id:r.id, status:r.status, pay:r.pay, doneDate:r.doneDate});
       r.status = 'Pending'; r.pay = 'Unpaid'; r.doneDate = '';
     });
@@ -1142,27 +1719,30 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
     });
   }
   function moneyOrBlank(n){ return n == null ? '' : money(n); }
+  function showMoney(){ return role !== 'driver' && (sync.mode !== 'shared' || sync.ledger); }
+  var MONEY_IDX = [8, 9, 10, 11, 12];
   function logTableHtml(){
     var rows = logItems();
     if (!rows.length) return '<div class="empty"><b>No matches</b>Nothing in the log matches that search.</div>';
-    var h = '<div class="gridwrap tall"><table class="logtbl"><thead><tr>' + LOG_HEAD.map(function(t){ return '<th>' + t + '</th>'; }).join('') + '</tr></thead><tbody>';
+    var sm = showMoney();
+    var h = '<div class="gridwrap tall"><table class="logtbl"><thead><tr>' + LOG_HEAD.filter(function(t, i){ return sm || MONEY_IDX.indexOf(i) < 0; }).map(function(t){ return '<th>' + t + '</th>'; }).join('') + '</tr></thead><tbody>';
     rows.forEach(function(x){
-      h += '<tr>'
-        + '<td class="mono">' + esc(x.weekEnding) + '</td>'
-        + '<td>' + esc(x.name) + '</td>'
-        + '<td class="wrapcell">' + esc(x.serviceAddr) + '</td>'
-        + '<td>' + esc(x.job) + '</td>'
-        + '<td><span class="chip" data-v="' + (x.done === 'Done' ? 'ok' : 'warn') + '">' + esc(x.done) + '</span></td>'
-        + '<td class="mono">' + esc(x.doneDate) + '</td>'
-        + '<td>' + esc(x.reason) + '</td>'
-        + '<td>' + esc(x.payment) + '</td>'
-        + '<td class="money">' + moneyOrBlank(x.rate) + '</td>'
-        + '<td>' + esc(x.freq) + '</td>'
-        + '<td class="money">' + moneyOrBlank(x.owed) + '</td>'
-        + '<td class="money">' + moneyOrBlank(x.paid) + '</td>'
-        + '<td class="mono">' + esc(x.paidDate) + '</td>'
-        + '<td class="wrapcell">' + esc(x.notes) + '</td>'
-        + '</tr>';
+      var cells = [
+        '<td class="mono">' + esc(x.weekEnding) + '</td>',
+        '<td>' + esc(x.name) + '</td>',
+        '<td class="wrapcell">' + esc(x.serviceAddr) + '</td>',
+        '<td>' + esc(x.job) + '</td>',
+        '<td><span class="chip" data-v="' + (x.done === 'Done' ? 'ok' : 'warn') + '">' + esc(x.done) + '</span></td>',
+        '<td class="mono">' + esc(x.doneDate) + '</td>',
+        '<td>' + esc(x.reason) + '</td>',
+        '<td>' + esc(x.payment) + '</td>',
+        '<td class="money">' + moneyOrBlank(x.rate) + '</td>',
+        '<td>' + esc(x.freq) + '</td>',
+        '<td class="money">' + moneyOrBlank(x.owed) + '</td>',
+        '<td class="money">' + moneyOrBlank(x.paid) + '</td>',
+        '<td class="mono">' + esc(x.paidDate) + '</td>',
+        '<td class="wrapcell">' + esc(x.notes) + '</td>'];
+      h += '<tr>' + cells.filter(function(c, i){ return sm || MONEY_IDX.indexOf(i) < 0; }).join('') + '</tr>';
     });
     return h + '</tbody></table></div>';
   }
@@ -1183,40 +1763,380 @@ td.ord .btn{margin:0 2px;padding:3px 7px;min-width:28px}
   }
   function setLogMsg(t){ logMsg = t; var m = $('logmsg'); if (m) m.textContent = t; }
 
-  async function exportLog(){
-    if (typeof XLSX === 'undefined'){ setLogMsg('The Excel tool did not load. Reload the page and try again.'); return; }
+  var CUST_HEAD = ['Order','Customer','Service address','Billing address','Job','Rate','How often','Amount owed','Owed note (from list)','Auto-filled amount','Owed change note','Amount paid','Date paid','Balance','Yard status','Date done','Payment at yard','Phone','Email','Time on site','Driver notes','Accountant notes'];
+  function fmtSheet(ws, nRows, dateCols, moneyCols, widths, nCols){
+    for (var r = 1; r < nRows; r++){
+      dateCols.forEach(function(c){ var a = ws[XLSX.utils.encode_cell({r:r, c:c})]; if (a && a.t === 'd') a.z = 'yyyy-mm-dd'; });
+      moneyCols.forEach(function(c){ var a = ws[XLSX.utils.encode_cell({r:r, c:c})]; if (a && a.t === 'n') a.z = '"$"#,##0.00'; });
+    }
+    ws['!cols'] = widths.map(function(w){ return {wch:w}; });
+    ws['!autofilter'] = {ref:XLSX.utils.encode_range({s:{r:0, c:0}, e:{r:Math.max(nRows - 1, 0), c:nCols - 1}})};
+    return ws;
+  }
+  function logSheet(log, withMoney){
+    var keepIdx = LOG_HEAD.map(function(t, i){ return i; }).filter(function(i){ return withMoney !== false || MONEY_IDX.indexOf(i) < 0; });
+    var aoa = [LOG_HEAD];
+    log.forEach(function(x){
+      aoa.push([ymd(x.weekEnding) || x.weekEnding || '', x.name, x.serviceAddr, x.job, x.done, ymd(x.doneDate) || '', x.reason, x.payment,
+        x.rate == null ? '' : x.rate, x.freq, x.owed == null ? '' : x.owed, x.paid == null ? '' : x.paid, ymd(x.paidDate) || '', x.notes]);
+    });
+    aoa = aoa.map(function(row){ return keepIdx.map(function(i){ return row[i]; }); });
+    var ws = XLSX.utils.aoa_to_sheet(aoa, {cellDates:true});
+    var widths = [12, 24, 38, 16, 9, 14, 18, 13, 10, 16, 13, 12, 12, 40];
+    var dc = [0, 5, 12], mc = [8, 10, 11];
+    function remap(cols){ return cols.map(function(c){ return keepIdx.indexOf(c); }).filter(function(c){ return c >= 0; }); }
+    return fmtSheet(ws, aoa.length, remap(dc), remap(mc), keepIdx.map(function(i){ return widths[i]; }), keepIdx.length);
+  }
+  function custSheet(rows){
+    var aoa = [CUST_HEAD];
+    rows.forEach(function(r, i){
+      aoa.push([i + 1, r.name, r.serviceAddr, r.billingAddr, r.job, r.rate == null ? '' : r.rate, r.freq,
+        r.owed == null ? '' : r.owed, r.owedNote || '', r.owedAuto == null ? '' : r.owedAuto, r.owedAdj || '',
+        r.paid == null ? '' : r.paid, ymd(r.paidDate) || '', (r.owed || 0) - (r.paid || 0), r.status, ymd(r.doneDate) || '', r.pay,
+        r.phone, r.email, r.time, r.driverNotes, r.acctNotes]);
+    });
+    var ws = XLSX.utils.aoa_to_sheet(aoa, {cellDates:true});
+    return fmtSheet(ws, aoa.length, [12, 15], [5, 7, 9, 11, 13], [7, 24, 38, 38, 16, 10, 16, 13, 32, 13, 28, 12, 12, 12, 18, 12, 13, 15, 26, 11, 40, 40], CUST_HEAD.length);
+  }
+  async function saveBook(wb, fn, say){
+    if (typeof XLSX === 'undefined'){ say('The Excel tool did not load. Reload the page and try again.'); return false; }
     var dl = null;
     try{ dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null; }catch(e){ dl = null; }
-    if (!dl){ setLogMsg('Saving files is not available in this view. Open the Routebook in Claude to download it.'); return; }
+    if (!dl){ say('Saving files is not available in this view. Open the Routebook in Claude to download it.'); return false; }
     try{
-      var aoa = [LOG_HEAD];
-      state.log.forEach(function(x){
-        aoa.push([ymd(x.weekEnding) || x.weekEnding || '', x.name, x.serviceAddr, x.job, x.done, ymd(x.doneDate) || '', x.reason, x.payment,
-          x.rate == null ? '' : x.rate, x.freq, x.owed == null ? '' : x.owed, x.paid == null ? '' : x.paid, ymd(x.paidDate) || '', x.notes]);
-      });
-      var ws = XLSX.utils.aoa_to_sheet(aoa, {cellDates:true});
-      for (var r = 1; r < aoa.length; r++){
-        [0, 5, 12].forEach(function(c){ var a = ws[XLSX.utils.encode_cell({r:r, c:c})]; if (a && a.t === 'd') a.z = 'yyyy-mm-dd'; });
-        [8, 10, 11].forEach(function(c){ var a = ws[XLSX.utils.encode_cell({r:r, c:c})]; if (a && a.t === 'n') a.z = '"$"#,##0.00'; });
-      }
-      ws['!cols'] = [12, 24, 38, 16, 9, 14, 18, 13, 10, 16, 13, 12, 12, 40].map(function(w){ return {wch:w}; });
-      ws['!autofilter'] = {ref:XLSX.utils.encode_range({s:{r:0, c:0}, e:{r:aoa.length - 1, c:LOG_HEAD.length - 1}})};
-      var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, ws, 'Weekly log');
       var out = XLSX.write(wb, {bookType:'xlsx', type:'array'});
-      var fn = 'lawncare-log-' + today() + '.xlsx';
       await dl.save({filename:fn, data:new Blob([out])});
-      setLogMsg('Saved ' + fn + '.');
+      say('Saved ' + fn + '.');
+      return true;
     }catch(err){
       var code = err && err.code;
-      setLogMsg(code === 'declined' ? 'Download cancelled.'
+      say(code === 'declined' ? 'Download cancelled.'
         : (code === 'rate_limited' ? 'A download prompt is already open. Answer it, then try again.'
         : 'The file could not be saved here.'));
+      return false;
     }
   }
+  async function exportLog(){
+    if (typeof XLSX === 'undefined'){ setLogMsg('The Excel tool did not load. Reload the page and try again.'); return; }
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, logSheet(state.log, showMoney()), 'Weekly log');
+    await saveBook(wb, 'lawncare-log-' + today() + '.xlsx', setLogMsg);
+  }
+  function bookOf(rows, log){
+    var wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, custSheet(rows), 'Customers');
+    XLSX.utils.book_append_sheet(wb, logSheet(log), 'Weekly log');
+    return wb;
+  }
+
+  /* ---------- send a copy / owner backup ---------- */
+  var BK_KEY = 'lawn-routebook-lastbackup';
+  var sendState = {open:false, busy:false, msg:'', status:''};
+  var copyArm = '', copyMsg = '';
+  function setCopyMsg(t){ copyMsg = t; var m = $('copymsg'); if (m) m.textContent = t; }
+  function totals(rows){
+    var b = 0, p = 0; rows.forEach(function(r){ b += r.owed || 0; p += r.paid || 0; });
+    return {customers:rows.length, billed:b, paid:p, owing:b - p};
+  }
+  function renderSend(){
+    var box = $('sendpanel');
+    if (!sendState.open){ box.hidden = true; box.innerHTML = ''; return; }
+    var keep = $('send-msg') ? $('send-msg').value : sendState.msg; sendState.msg = keep;
+    var ok = sync.mode === 'shared' && sync.canWrite, t = totals(state.rows);
+    box.innerHTML = '<h2>Send a copy to the owner</h2>'
+      + '<p class="rp-help">Sends a snapshot of what you can see (customers, notes and the weekly log) to the owner\u2019s Copies tab. Sending again replaces your previous copy. Nothing changes in your own list.</p>'
+      + (ok ? '' : '<p class="rp-note" style="color:var(--bad)">' + (sync.mode === 'shared' ? 'You have view-only access, so you cannot send.' : 'Sending needs the shared list. Ask the owner to turn on sharing first.') + '</p>')
+      + '<div class="rp-controls"><label style="max-width:520px;flex-basis:100%">Message (optional)<textarea id="send-msg" rows="2" placeholder="e.g. Week of 11/10 is done. Two customers still owe.">' + esc(keep) + '</textarea></label></div>'
+      + '<p class="rp-note">' + t.customers + ' customers' + (showMoney() ? ' \u00b7 billed ' + money(t.billed) + ' \u00b7 paid ' + money(t.paid) + ' \u00b7 still owed ' + money(t.owing) : '') + '</p>'
+      + '<div class="rp-actions"><button class="btn primary" type="button" data-act="send-go"' + (ok && !sendState.busy ? '' : ' disabled') + '>' + (sendState.busy ? 'Sending\u2026' : 'Send copy') + '</button>'
+      + '<button class="btn" type="button" data-act="send-cancel">Close</button></div>'
+      + '<p class="rp-note" role="status">' + esc(sendState.status) + '</p>';
+    box.hidden = false;
+  }
+  $('sendpanel').addEventListener('input', function(e){ if (e.target.id === 'send-msg') sendState.msg = e.target.value; });
+  async function sendCopy(){
+    if (sendState.busy || sync.mode !== 'shared' || !sync.canWrite || !sync.db) return;
+    sendState.busy = true; sendState.status = ''; renderSend();
+    var doc = Object.assign({at:new Date().toISOString(), role:role, msg:clean($('send-msg') ? $('send-msg').value : sendState.msg),
+      examples:!!state.examples, rows:clone(state.rows), log:clone(state.log), trimmed:false}, totals(state.rows));
+    while (JSON.stringify(doc).length > 230000 && doc.log.length){ doc.log = doc.log.slice(Math.ceil(doc.log.length * 0.25)); doc.trimmed = true; }
+    try{
+      if (JSON.stringify(doc).length > 250000) throw {code:'too_big'};
+      if (!sync.uid) throw {code:'no_id'};
+      await sync.db.doc('copies/' + sync.uid).set(doc);
+      sendState.msg = '';
+      var d = new Date();
+      sendState.status = 'Sent to the owner at ' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}) + '.' + (doc.trimmed ? ' The oldest weeks of the log were left out to fit.' : '');
+    }catch(e){
+      sendState.status = e && e.code === 'too_big' ? 'The list is too large to send in one copy.' : (e && e.code === 'no_id' ? 'Sign in to send a copy.' : 'The copy could not be sent. Try again in a moment.');
+    }
+    sendState.busy = false; renderSend();
+  }
+  function fmtWhen(iso){
+    var d = new Date(iso); if (isNaN(d)) return '';
+    return d.toLocaleDateString([], {month:'short', day:'numeric'}) + ', ' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+  }
+  function copiesHtml(){
+    var last = ''; try{ last = localStorage.getItem(BK_KEY) || ''; }catch(e){}
+    var h = '<div class="routepanel" style="margin-top:14px"><h2>Back up the whole ledger</h2>'
+      + '<p class="rp-help">Saves one Excel file to your computer with every customer (billing address, amounts, notes, how each owed amount was set) and the full weekly log. Do this now and then so you always hold your own copy.</p>'
+      + '<div class="rp-actions"><button class="btn primary" type="button" data-act="backup">Download full backup (Excel)</button></div>'
+      + '<p class="rp-note" id="copymsg" role="status">' + esc(copyMsg || (last ? 'Last backup from this device: ' + last + '.' : 'No backup has been saved from this device yet.')) + '</p></div>';
+    if (sync.db && sync.ledger) h += peopleHtml();
+    h += '<div class="routepanel"><h2>Who can open this</h2>'
+      + (sync.db
+        ? '<p class="rp-help">Sign-in and passwords are handled by Claude accounts, and you control them from the <b>Share</b> menu of this page. Invite each person by email, and do not share by public link.</p>'
+          + '<ul class="rp-help" style="margin:0;padding-left:18px"><li><b>Drivers:</b> invite as <b>Contributor</b>. They see only the route, yard status, driver notes and the log without money. Billing addresses, amounts and accountant notes are not sent to their device.</li>'
+          + '<li><b>Accountant:</b> invite as <b>Editor</b>. They see the money screens, import lists and send copies. An Editor can also publish changes to this page, so only invite someone you trust.</li>'
+          + '<li><b>Remove access</b> any time from the same Share menu. You are signed in as ' + (sync.level === 'owner' ? 'the owner' : 'an editor') + '.</li></ul>'
+        : '<p class="rp-help">This copy is not shared yet, so it has no sign-in or password protection. Turn on sharing from the bar at the top first, then invite people from the Share menu.</p>')
+      + '</div>';
+    h += '<h2 style="font-size:15px;margin:18px 0 8px">Copies sent to you</h2>';
+    if (!sync.db) return h + '<div class="empty"><b>Copies arrive once the list is shared</b>Turn on sharing from the bar at the top, then your driver and accountant can send copies here.</div>';
+    var list = sync.copies || [];
+    if (!list.length) return h + '<div class="empty"><b>Nothing sent yet</b>When your driver or accountant presses Send copy to owner, it shows up here.</div>';
+    list.forEach(function(c){
+      var d = c.data, who = d.role === 'accountant' ? 'Accountant' : (d.role === 'driver' ? 'Driver' : 'Someone');
+      h += '<article class="copycard"><header><b>From ' + who + '</b><span>' + esc(fmtWhen(d.at)) + '</span></header>'
+        + (d.msg ? '<p class="q">' + esc(d.msg) + '</p>' : '')
+        + '<div class="copystats"><span><b>' + (d.customers || 0) + '</b> customers</span>' + (d.role === 'driver' ? '' : '<span>billed <b>' + money(d.billed) + '</b></span><span>paid <b>' + money(d.paid) + '</b></span><span>still owed <b>' + money(d.owing) + '</b></span>') + '<span><b>' + ((d.log || []).length) + '</b> log lines' + (d.trimmed ? ' (older weeks left out)' : '') + '</span></div>'
+        + '<div class="rp-actions"><button class="btn" type="button" data-act="copy-dl" data-cid="' + esc(c.id) + '">Download Excel</button>'
+        + '<button class="btn" type="button" data-act="copy-del" data-cid="' + esc(c.id) + '">' + (copyArm === c.id ? 'Tap again to delete' : 'Delete') + '</button></div></article>';
+    });
+    return h;
+  }
+  function ago(iso){
+    var t = new Date(iso).getTime(); if (isNaN(t)) return '';
+    var m = Math.round((Date.now() - t) / 60000);
+    if (m < 1) return 'just now'; if (m < 60) return m + ' min ago';
+    var h = Math.round(m / 60); if (h < 24) return h + ' hr ago';
+    var d = Math.round(h / 24); return d + (d === 1 ? ' day ago' : ' days ago');
+  }
+  function peopleHtml(){
+    var by = {}, ids = [];
+    (sync.people || []).forEach(function(x){ by[x.id] = {id:x.id, at:x.data.at, role:x.data.role, level:x.data.level, tabs:0}; });
+    (sync.peers || []).forEach(function(pr){
+      if (pr.kind !== 'viewer') return;
+      var id = pr.by || ('peer-' + pr.peer);
+      var e = by[id] || (by[id] = {id:id, tabs:0});
+      e.tabs++; e.role = (pr.presence && pr.presence.role) || e.role; e.level = (pr.presence && pr.presence.level) || e.level;
+      e.me = e.me || pr.isMe; e.guest = pr.guest;
+    });
+    var list = Object.keys(by).map(function(k){ return by[k]; });
+    list.forEach(function(e){ if (e.id.indexOf('peer-') !== 0) ids.push(e.id); });
+    ensureNames(ids);
+    list.sort(function(a, b){ return (b.tabs ? 1 : 0) - (a.tabs ? 1 : 0) || String(b.at || '').localeCompare(String(a.at || '')); });
+    var online = list.filter(function(e){ return e.tabs; }).length;
+    var h = '<div class="routepanel"><h2>Who is signed in</h2><p class="rp-help">' + online + (online === 1 ? ' person is' : ' people are') + ' on this page right now. Everyone who has opened it appears below with the time they last opened it.</p>';
+    if (!list.length) return h + '<p class="rp-note">Nobody yet.</p></div>';
+    h += '<div class="gridwrap"><table class="logtbl"><thead><tr><th>Person</th><th>Viewing as</th><th>Access</th><th>Status</th><th>Last opened</th></tr></thead><tbody>';
+    list.forEach(function(e){
+      var nm = sync.names[e.id] || (e.id.indexOf('peer-') === 0 ? 'Someone' : (e.id in sync.names ? 'Someone' : '\u2026'));
+      var lv = e.level === 'owner' ? 'Owner' : (e.level === 'admin' ? 'Editor' : (e.level === 'member' ? 'Contributor' : ''));
+      h += '<tr><td>' + esc(nm) + (e.me ? ' (you)' : '') + (e.guest ? ' \u00b7 guest' : '') + '</td>'
+        + '<td>' + esc(e.role ? (ROLES[e.role] ? ROLES[e.role].label : e.role) : '') + '</td>'
+        + '<td>' + esc(lv) + '</td>'
+        + '<td><span class="chip" data-v="' + (e.tabs ? 'ok' : 'none') + '">' + (e.tabs ? 'Online now' : 'Offline') + '</span></td>'
+        + '<td>' + esc(e.at ? ago(e.at) : '') + '</td></tr>';
+    });
+    return h + '</tbody></table></div></div>';
+  }
+  async function backupAll(){
+    if (typeof XLSX === 'undefined'){ setCopyMsg('The Excel tool did not load. Reload the page and try again.'); return; }
+    var ok = await saveBook(bookOf(state.rows, state.log), 'lawncare-ledger-backup-' + today() + '.xlsx', setCopyMsg);
+    if (ok){ try{ localStorage.setItem(BK_KEY, today()); }catch(e){} }
+  }
+  async function downloadCopy(id){
+    var c = (sync.copies || []).filter(function(x){ return x.id === id; })[0];
+    if (!c){ setCopyMsg('That copy is no longer there.'); return; }
+    if (typeof XLSX === 'undefined'){ setCopyMsg('The Excel tool did not load. Reload the page and try again.'); return; }
+    var stamp = String(c.data.at || '').slice(0, 10) || today();
+    await saveBook(bookOf(c.data.rows || [], c.data.log || []), 'lawncare-copy-' + stamp + '.xlsx', setCopyMsg);
+  }
+  function deleteCopy(id){
+    if (!sync.db) return;
+    sync.db.doc('copies/' + id).delete().then(function(){ setCopyMsg('Copy deleted.'); }, function(){ setCopyMsg('The copy could not be deleted.'); });
+    render();
+  }
+
+  /* ---------- roles ---------- */
+  var ROLE_KEY = 'lawn-routebook-role';
+  var ROLES = {
+    driver:{label:'Driver', home:'#driver', tabs:['driver','log']},
+    accountant:{label:'Accountant', home:'#accountant', tabs:['accountant','import','log']},
+    owner:{label:'Owner', home:'#copies', tabs:['copies','accountant','driver','import','log']}
+  };
+  function showGate(){
+    var last = '';
+    try{ last = localStorage.getItem(ROLE_KEY) || ''; }catch(e){ last = ''; }
+    var allowed = allowedRoles();
+    $('rolegate').hidden = false;
+    $('app').setAttribute('inert', '');
+    $('rg-wait').hidden = true; $('rg-opts').hidden = false;
+    ['driver','accountant','owner'].forEach(function(r){ var b = $('role-' + r); b.hidden = allowed.indexOf(r) < 0; b.setAttribute('data-last', r === last ? '1' : ''); });
+    $('rg-note').textContent = sync.level ? 'You are signed in. The roles offered are the ones your access allows.' : 'This only changes what you see. It is not a password. Turn on sharing to protect the money screens.';
+    if (allowed.indexOf(last) < 0) last = allowed[0];
+    $('rg-last').textContent = ROLES[last] ? 'Last time on this device: ' + ROLES[last].label + '.' : '';
+    var f = $('role-' + last);
+    setTimeout(function(){ if (f && f.focus) f.focus(); }, 0);
+  }
+  function chooseRole(r){
+    if (!ROLES[r] || allowedRoles().indexOf(r) < 0) return;
+    role = r;
+    try{ localStorage.setItem(ROLE_KEY, r); }catch(e){}
+    $('rolegate').hidden = true;
+    $('app').removeAttribute('inert');
+    announce();
+    if (ROLES[r].tabs.indexOf(view()) < 0) location.hash = ROLES[r].home;
+    render();
+    window.scrollTo(0, 0);
+  }
+
+  /* ---------- charts ---------- */
+  function niceScale(vmax, whole){
+    if (!(vmax > 0)) return {max:4, step:1};
+    var raw = vmax / 4, p = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10)), f = raw / p;
+    var step = (f <= 1 ? 1 : (f <= 2 ? 2 : (f <= 5 ? 5 : 10))) * p;
+    if (whole && step < 1) step = 1;
+    return {max:step * Math.ceil(vmax / step - 1e-9), step:step};
+  }
+  function fmtTick(v, isMoney){ return isMoney ? '$' + v.toLocaleString('en-US') : String(v); }
+  function colPath(x, y, w, h, r){
+    r = Math.min(r, w / 2, h);
+    return 'M' + x + ',' + (y + h) + ' L' + x + ',' + (y + r) + ' Q' + x + ',' + y + ' ' + (x + r) + ',' + y
+      + ' L' + (x + w - r) + ',' + y + ' Q' + (x + w) + ',' + y + ' ' + (x + w) + ',' + (y + r) + ' L' + (x + w) + ',' + (y + h) + ' Z';
+  }
+  function columnChart(items, o){
+    var cw = $('chartpanel').clientWidth, W = (cw && cw < 600) ? Math.max(280, cw - 30) : 560;
+    var H = 230, L = 52, R = 8, T = 16, B = 28, pw = W - L - R, ph = H - T - B;
+    var vmax = 0; items.forEach(function(it){ if (it.value > vmax) vmax = it.value; });
+    var sc = niceScale(vmax, !o.money);
+    function Y(v){ return T + ph - ph * (v / sc.max); }
+    var s = '<svg class="colchart" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(o.label) + '">';
+    for (var v = 0; v <= sc.max + 1e-9; v += sc.step){
+      var yy = Y(v), vv = Math.round(v * 100) / 100;
+      s += '<line class="' + (vv === 0 ? 'ax-base' : 'grid') + '" x1="' + L + '" x2="' + (W - R) + '" y1="' + yy.toFixed(1) + '" y2="' + yy.toFixed(1) + '"/>'
+        + '<text class="ax" x="' + (L - 8) + '" y="' + (yy + 4).toFixed(1) + '" text-anchor="end">' + fmtTick(vv, o.money) + '</text>';
+    }
+    var slot = pw / items.length, bw = Math.min(24, slot * 0.6), every = Math.max(1, Math.ceil(46 / slot));
+    items.forEach(function(it, i){
+      s += '<rect class="hit" tabindex="0" x="' + (L + slot * i).toFixed(1) + '" y="' + T + '" width="' + slot.toFixed(1) + '" height="' + (ph + B) + '" data-tip="' + esc(it.tip) + '"/>';
+    });
+    items.forEach(function(it, i){
+      var cx = L + slot * i + slot / 2, h = ph * (it.value / sc.max);
+      if (h > 0.5) s += '<path class="bar" d="' + colPath(+(cx - bw / 2).toFixed(1), +(T + ph - h).toFixed(1), +bw.toFixed(1), +h.toFixed(1), 4) + '"/>';
+      if ((items.length - 1 - i) % every === 0) s += '<text class="ax" x="' + cx.toFixed(1) + '" y="' + (H - 8) + '" text-anchor="middle">' + esc(it.label) + '</text>';
+      if (i === items.length - 1 && it.value > 0) s += '<text class="vl" x="' + cx.toFixed(1) + '" y="' + (T + ph - h - 5).toFixed(1) + '" text-anchor="middle">' + (o.money ? money(it.value) : it.value) + '</text>';
+    });
+    return s + '</svg>';
+  }
+  function hbarChart(items){
+    var max = 0; items.forEach(function(it){ if (it.value > max) max = it.value; });
+    return '<div class="hbars">' + items.map(function(it){
+      var p = max > 0 ? it.value / max : 0;
+      return '<div class="hb" tabindex="0" data-tip="' + esc(it.tip) + '"><span class="hb-name">' + esc(it.name) + '</span>'
+        + '<span class="hb-track"><i class="hb-bar" style="flex:0 0 calc((100% - 76px) * ' + p.toFixed(4) + ')"></i><span class="hb-val">' + money(it.value) + '</span></span></div>';
+    }).join('') + '</div>';
+  }
+  function segBar(parts){
+    var total = 0; parts.forEach(function(p){ total += p.n; });
+    if (!total) return '';
+    var aria = parts.map(function(p){ return p.label + ' ' + p.n; }).join(', ') + ' of ' + total;
+    var bar = '<div class="seg" role="img" aria-label="' + esc(aria) + '">' + parts.filter(function(p){ return p.n > 0; }).map(function(p){
+      var share = p.n / total;
+      return '<i class="' + p.cls + '" style="flex:' + p.n + ' 1 0%" tabindex="0" data-tip="' + esc(p.label + ': ' + p.n + ' of ' + total + ' (' + Math.round(share * 100) + '%)') + '">' + (share >= 0.1 ? p.n : '') + '</i>';
+    }).join('') + '</div>';
+    var legend = '<div class="seg-legend">' + parts.map(function(p){ return '<span><em class="' + p.cls + '"></em>' + esc(p.label) + '</span>'; }).join('') + '</div>';
+    return bar + legend;
+  }
+  function tableView(head, rows){
+    return '<details class="tv"><summary>Table view</summary><div class="tvwrap"><table><thead><tr>'
+      + head.map(function(t){ return '<th>' + esc(t) + '</th>'; }).join('') + '</tr></thead><tbody>'
+      + rows.map(function(r){ return '<tr>' + r.map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('')
+      + '</tbody></table></div></details>';
+  }
+  function shortDate(s){
+    var d = ymd(s);
+    return d ? d.toLocaleDateString('en-US', {month:'short', day:'numeric'}) : String(s || '');
+  }
+  function weeklyAgg(){
+    var m = {};
+    state.log.forEach(function(x){
+      var w = m[x.weekEnding] || (m[x.weekEnding] = {we:x.weekEnding, done:0, notDone:0, bal:0});
+      if (x.done === 'Done') w.done++; else w.notDone++;
+      w.bal += Math.max(0, (x.owed || 0) - (x.paid || 0));
+    });
+    return Object.keys(m).sort().map(function(k){ return m[k]; }).slice(-8);
+  }
+  function driverCharts(){
+    var c = weekCounts(), total = state.rows.length;
+    var h = '<div class="viz"><h2>This week</h2><p class="sub">' + total + (total === 1 ? ' customer' : ' customers') + ' on the routebook</p>'
+      + segBar([{cls:'c-good', label:'Done', n:c.done}, {cls:'c-warn', label:'Skipped', n:c.skipped}, {cls:'c-none', label:'Not yet', n:c.notVisited}])
+      + tableView(['Status', 'Customers'], [['Done', c.done], ['Skipped', c.skipped], ['Not yet', c.notVisited]]) + '</div>';
+    var wk = weeklyAgg();
+    h += '<div class="viz"><h2>Yards done each week</h2>';
+    if (!wk.length) h += '<p class="sub">Save your first week and it shows up here.</p>';
+    else {
+      h += '<p class="sub">From the weeks you saved to the log</p>'
+        + columnChart(wk.map(function(w){ return {label:shortDate(w.we), value:w.done, tip:shortDate(w.we) + ': ' + w.done + (w.done === 1 ? ' yard done' : ' yards done')}; }), {money:false, label:'Yards done each saved week'})
+        + tableView(['Week ending', 'Done', 'Not done'], wk.map(function(w){ return [w.we, w.done, w.notDone]; }));
+    }
+    return h + '</div>';
+  }
+  function acctCharts(){
+    var owing = state.rows.map(function(r){ return {name:r.name || 'Unnamed', value:(r.owed || 0) - (r.paid || 0)}; })
+      .filter(function(x){ return x.value > 0.005; })
+      .sort(function(a, b){ return b.value - a.value; });
+    var h = '<div class="viz"><h2>Who owes the most</h2>';
+    if (!owing.length) h += '<p class="sub">Nobody owes anything right now.</p>';
+    else {
+      h += '<p class="sub">Still owed per customer, largest first' + (owing.length > 8 ? '. Top 8 of ' + owing.length + '.' : '') + '</p>'
+        + hbarChart(owing.slice(0, 8).map(function(x){ return {name:x.name, value:x.value, tip:x.name + ': ' + money(x.value) + ' still owed'}; }))
+        + tableView(['Customer', 'Still owed'], owing.map(function(x){ return [x.name, money(x.value)]; }));
+    }
+    h += '</div>';
+    var wk = weeklyAgg();
+    h += '<div class="viz"><h2>Still owed at each weekly save</h2>';
+    if (!wk.length) h += '<p class="sub">Save your first week and the balance on that day shows up here.</p>';
+    else {
+      h += '<p class="sub">Total balance on the day each week was saved</p>'
+        + columnChart(wk.map(function(w){ return {label:shortDate(w.we), value:w.bal, tip:shortDate(w.we) + ': ' + money(w.bal) + ' still owed'}; }), {money:true, label:'Balance still owed at each saved week'})
+        + tableView(['Week ending', 'Still owed'], wk.map(function(w){ return [w.we, money(w.bal)]; }));
+    }
+    return h + '</div>';
+  }
+  function renderCharts(){
+    var box = $('chartpanel'), v = view();
+    hideTip();
+    if ((v !== 'driver' && v !== 'accountant') || !state.rows.length){ box.hidden = true; box.innerHTML = ''; return; }
+    var open = [].slice.call(box.querySelectorAll('details')).map(function(d){ return d.open; });
+    box.innerHTML = v === 'driver' ? driverCharts() : acctCharts();
+    [].slice.call(box.querySelectorAll('details')).forEach(function(d, i){ if (open[i]) d.open = true; });
+    box.hidden = false;
+  }
+  var tipEl = $('tip');
+  function hideTip(){ tipEl.hidden = true; }
+  function showTip(el){
+    tipEl.textContent = el.getAttribute('data-tip');
+    tipEl.hidden = false;
+    var r = el.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+    var left = Math.max(6, Math.min(window.innerWidth - w - 6, r.left + r.width / 2 - w / 2));
+    var top = r.top - h - 6; if (top < 6) top = r.bottom + 6;
+    tipEl.style.left = left + 'px'; tipEl.style.top = top + 'px';
+  }
+  function tipFor(e){
+    var el = e.target.closest && e.target.closest('[data-tip]');
+    if (el) showTip(el); else hideTip();
+  }
+  document.addEventListener('mouseover', tipFor);
+  document.addEventListener('focusin', tipFor);
+  document.addEventListener('focusout', hideTip);
+  window.addEventListener('scroll', hideTip, true);
 
   window.addEventListener('hashchange', render);
+  $('rolegate').hidden = false;
   render();
+  initSync();
 })();
 </script>
 
